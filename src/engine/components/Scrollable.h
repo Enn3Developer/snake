@@ -30,6 +30,9 @@ private:
 
     /// Altezza massima renderizzabile
     int viewportHeight;
+
+public:
+    void add(Drawable *drawable);
 };
 
 #endif
