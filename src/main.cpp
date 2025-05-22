@@ -1,5 +1,5 @@
 #include "engine/Engine.h"
-#include "game/MainScene.h"
+#include "game/scenes/MainScene.h"
 
 int main() {
     // inizializzazione iniziale del gioco

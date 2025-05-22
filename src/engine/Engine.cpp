@@ -35,6 +35,10 @@ Engine::Engine(const int height, const int width, const int startX, const int st
 }
 
 Engine::~Engine() {
+    // pulisce la finestra
+    clear();
+    // aggiorna la finestra
+    refresh();
     // elimina la finestra
     endwin();
 }

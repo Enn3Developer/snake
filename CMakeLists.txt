@@ -17,9 +17,15 @@ add_executable(snake src/main.cpp
         src/engine/context/DrawContext.cpp
         src/engine/components/Label.cpp
         src/engine/components/Button.cpp
-        src/game/MainScene.cpp
-        src/game/MainScene.h
+        src/game/scenes/MainScene.cpp
+        src/game/scenes/MainScene.h
         src/engine/File.cpp
-        src/engine/File.h)
+        src/engine/File.h
+        src/game/components/Snake.cpp
+        src/game/components/Snake.h
+        src/engine/components/Scrollable.cpp
+        src/engine/components/Scrollable.h
+        src/game/scenes/LeaderboardScene.cpp
+        src/game/scenes/LeaderboardScene.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})

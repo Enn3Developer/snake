@@ -1,7 +1,7 @@
 #ifndef MAINSCENE_H
 #define MAINSCENE_H
-#include "../engine/Scene.h"
-#include "../engine/components/Button.h"
+#include "../../engine/Scene.h"
+#include "../../engine/components/Button.h"
 
 class MainScene final : public Scene {
 private:

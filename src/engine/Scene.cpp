@@ -192,7 +192,6 @@ void Scene::run(RunContext *ctx) {
             // e chiamiamo la funzione che gestisce i click normalizzando la posizione
             this->click(ctx, position[0] - this->startX, position[1] - this->startY);
             break;
-        default: break;
     }
 }
 
