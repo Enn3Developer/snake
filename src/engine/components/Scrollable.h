@@ -19,13 +19,16 @@ private:
     /// Numero di elementi nella lista
     int size;
 
-    /// Spazio verticale tra un elemento ed un altro
+    /// Spazio verticale tra un elemento e un altro
     int spacing;
 
     /// Altezza totale di tutti gli elementi + lo spacing
     int maxHeight;
 
     /// Altezza attuale nella scrollbar (ovvero a che altezza si trova la prima riga)
+    int scrollHeight;
+
+    /// Altezza massima renderizzabile
     int viewportHeight;
 };
 
