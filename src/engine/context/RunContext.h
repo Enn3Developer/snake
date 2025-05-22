@@ -43,10 +43,13 @@ public:
     /// Ritorna x e y del mouse al momento del click
     [[nodiscard]] int *getMousePosition() const;
 
+    /// Avvisa l'Engine di preparare una nuova scena e sostituirla con quella attuale
     void queueScene(Scene *scene);
 
+    /// Avvisa l'engine di prepararsi per uscire dal gioco
     void queueExit();
 
+    /// Avvisa l'engine di forzare un draw di tutto lo schermo anziche' della scena
     void forceRedraw();
 
     /// Usato dall'engine per controllare l'eventuale presenza di cambio di scena
