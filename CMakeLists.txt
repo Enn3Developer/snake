@@ -18,6 +18,8 @@ add_executable(snake src/main.cpp
         src/engine/components/Label.cpp
         src/engine/components/Button.cpp
         src/game/MainScene.cpp
-        src/game/MainScene.h)
+        src/game/MainScene.h
+        src/engine/File.cpp
+        src/engine/File.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})
