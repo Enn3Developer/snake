@@ -1,6 +1,7 @@
 #include "Drawable.h"
 
 Drawable::Drawable() {
+    // inizializzazione del Drawable con valori di default
     this->visible = true;
     this->hover = false;
     this->x = this->y = 0;

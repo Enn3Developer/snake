@@ -1,6 +1,7 @@
 #include "RunContext.h"
 
 RunContext::RunContext() {
+    // valori di default del RunContext
     this->input = NONE;
     this->switchScene = nullptr;
     this->exit = false;

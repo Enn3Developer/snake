@@ -8,7 +8,6 @@ include_directories(${CURSES_INCLUDE_DIR})
 
 add_executable(snake src/main.cpp
         src/engine/Scene.cpp
-        src/engine/File.cpp
         src/engine/Engine.cpp
         src/engine/Drawable.cpp
         src/engine/ColorPair.cpp
