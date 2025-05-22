@@ -11,7 +11,7 @@ RunContext::RunContext() {
 
 RunContext::~RunContext() = default;
 
-void RunContext::setInput(const Keyboard input) {
+void RunContext::setInput(const InputKind input) {
     this->input = input;
 }
 
@@ -20,7 +20,7 @@ void RunContext::setMousePosition(const int x, const int y) {
 }
 
 
-Keyboard RunContext::getInput() const {
+InputKind RunContext::getInput() const {
     return this->input;
 }
 

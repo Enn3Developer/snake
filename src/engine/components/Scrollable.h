@@ -18,6 +18,15 @@ private:
     p_list t_drawables;
     /// Numero di elementi nella lista
     int size;
+
+    /// Spazio verticale tra un elemento ed un altro
+    int spacing;
+
+    /// Altezza totale di tutti gli elementi + lo spacing
+    int maxHeight;
+
+    /// Altezza attuale nella scrollbar (ovvero a che altezza si trova la prima riga)
+    int viewportHeight;
 };
 
 #endif

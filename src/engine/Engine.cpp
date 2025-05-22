@@ -74,7 +74,7 @@ void Engine::input(RunContext *ctx) {
     const auto c = getch();
 
     // inizializza l'input a NONE
-    Keyboard input = NONE;
+    InputKind input = NONE;
 
     // inizializza i dati per un possibile click con il mouse
     int x = 0, y = 0;

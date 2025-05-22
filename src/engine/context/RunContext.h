@@ -3,7 +3,7 @@
 
 class Scene;
 
-typedef enum keyboard {
+typedef enum input_kind {
     NONE,
     LEFT,
     RIGHT,
@@ -12,12 +12,12 @@ typedef enum keyboard {
     CONFIRM,
     ESCAPE,
     CLICKED,
-} Keyboard;
+} InputKind;
 
 class RunContext {
 protected:
     /// L'input attuale da tastiera
-    Keyboard input;
+    InputKind input;
     /// Posizione del mouse al momento del click
     int x, y;
     /// Puntatore ad un'eventuale richiesta di cambiamento di scena
@@ -33,12 +33,12 @@ public:
     ~RunContext();
 
     /// Usato dall'engine per impostare l'input attuale
-    void setInput(Keyboard input);
+    void setInput(InputKind input);
 
     /// Usato dall'engine per impostare la posizione del mouse al momento del click
     void setMousePosition(int x, int y);
 
-    [[nodiscard]] Keyboard getInput() const;
+    [[nodiscard]] InputKind getInput() const;
 
     /// Ritorna x e y del mouse al momento del click
     [[nodiscard]] int *getMousePosition() const;
