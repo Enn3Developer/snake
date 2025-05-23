@@ -35,7 +35,7 @@ void DrawContext::prepare(const bool redraw) const {
     // riprepariamo la box della finestra
     box(this->win, 0, 0);
     // e disegniamo pure il titolo
-    mvwprintw(this->win, 0, 1, this->title);
+    mvwprintw(this->win, 0, 2, this->title);
 }
 
 

@@ -1,6 +1,6 @@
 #include "LeaderboardScene.h"
 
-LeaderboardScene::LeaderboardScene(): scrollable(1, 20, 20) {
+LeaderboardScene::LeaderboardScene(): scrollable(1, 29, 79) {
     this->testLabel = *new Label();
     this->testLabel.setText("Test");
 
