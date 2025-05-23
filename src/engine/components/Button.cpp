@@ -1,8 +1,9 @@
 #include "Button.h"
 #include <cstring>
 
-Button::Button()
-{
+#include "../context/RunContext.h"
+
+Button::Button() {
     this->hoverColor = -1;
     this->txt = "";
     this->click = nullptr;
@@ -10,43 +11,39 @@ Button::Button()
 
 Button::~Button() = default;
 
-void Button::setText(const char* txt)
-{
+void Button::setText(const char *txt) {
     this->txt = txt;
 }
 
-void Button::setOnClick(void (*click)(RunContext* ctx))
-{
+void Button::setOnClick(void (*click)(RunContext *ctx)) {
     this->click = click;
 }
 
 
-void Button::draw(DrawContext* ctx)
-{
-    if (this->hoverColor == -1)
-    {
+void Button::draw(DrawContext *ctx) {
+    if (this->hoverColor == -1) {
         this->hoverColor = ctx->registerColorPair(ColorPair(COLOR_BLACK, COLOR_WHITE));
     }
-    if (this->hover)
-    {
+    if (this->hover) {
         ctx->enableColor(this->hoverColor);
     }
     ctx->writeAt(this->txt, this->x, this->y);
-    if (this->hover)
-    {
+    if (this->hover) {
         ctx->disableColor(this->hoverColor);
     }
 }
 
-void Button::action(RunContext* ctx)
-{
-    if (this->click != nullptr)
-    {
-        this->click(ctx);
+bool Button::action(RunContext *ctx) {
+    if (ctx->getInput() == CLICKED | CONFIRM) {
+        if (this->click != nullptr) {
+            this->click(ctx);
+            return true;
+        }
     }
+
+    return false;
 }
 
-int Button::width()
-{
+int Button::width() {
     return strlen(this->txt);
 }

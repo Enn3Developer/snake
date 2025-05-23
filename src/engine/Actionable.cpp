@@ -2,6 +2,6 @@
 
 Actionable::~Actionable() = default;
 
-void Actionable::action(RunContext* ctx)
-{
+bool Actionable::action(RunContext *ctx) {
+    return false;
 }

@@ -1,5 +1,17 @@
 #include "Scrollable.h"
 
+#include "../context/RunContext.h"
+
+Scrollable::Scrollable(int spacing, int viewportHeight, int viewportWidth) {
+    this->spacing = spacing;
+    this->viewportHeight = viewportHeight;
+    this->viewportWidth = viewportWidth;
+    this->size = 0;
+    this->scrollHeight = 0;
+    this->maxHeight = 0;
+}
+
+
 void Scrollable::add(Drawable *drawable) {
     // inizializza un elemento della lista
     const auto l = new list{drawable, nullptr, nullptr};
@@ -30,4 +42,68 @@ void Scrollable::add(Drawable *drawable) {
 
     // incrementa il numero di elementi presenti nella lista
     this->size++;
+}
+
+void Scrollable::scrollBy(int rows) {
+    this->scrollHeight += rows;
+
+    // scrollHeight minimo
+    if (this->scrollHeight < 0) this->scrollHeight = 0;
+
+    // scrollHeight massimo
+    if (this->scrollHeight >= this->maxHeight) this->scrollHeight = this->maxHeight;
+}
+
+int Scrollable::height() {
+    return this->viewportHeight;
+}
+
+int Scrollable::width() {
+    return this->viewportWidth;
+}
+
+void Scrollable::draw(DrawContext *ctx) {
+    // partendo dalla testa
+    auto l = this->h_drawables;
+    // impostiamo l'altezza attuale a 0
+    int currentHeight = 0;
+
+    // finche' ci stanno elementi da controllare
+    while (l != nullptr) {
+        // controlliamo se l'altezza attuale rientra nella viewport da renderizzare
+        if (currentHeight < scrollHeight || currentHeight + l->drawable->height() >= scrollHeight + viewportHeight) {
+            // se non lo e', passiamo direttamente al prossimo elemento aggiornando l'altezza attuale
+            currentHeight += l->drawable->height() + this->spacing;
+            l = l->next;
+            continue;
+        }
+
+        // calcoliamo la posizione dell'elemento
+        int x = this->x;
+        int y = this->y + currentHeight - this->scrollHeight;
+
+        // impostiamo la posizione all'elemento
+        l->drawable->setPosition(x, y);
+
+        // diamo il comando draw all'elemento
+        l->drawable->draw(ctx);
+
+        // ricalcoliamo la nuova altezza attuale
+        currentHeight += l->drawable->height() + this->spacing;
+
+        // finalmente, possiamo passare al nuovo elemento
+        l = l->next;
+    }
+}
+
+bool Scrollable::action(RunContext *ctx) {
+    switch (ctx->getInput()) {
+        case UP:
+            this->scrollBy(-1);
+            return true;
+        case DOWN:
+            this->scrollBy(1);
+            return true;
+        default: return false;
+    }
 }

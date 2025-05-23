@@ -3,12 +3,12 @@
 
 class RunContext;
 
-class Actionable
-{
+class Actionable {
 public:
     virtual ~Actionable();
-    /// Azione da eseguire
-    virtual void action(RunContext* ctx);
+
+    /// Azione da eseguire; se il valore di ritorno e' true allora la scena che ha chiamato quest'azione non deve proseguire con l'azione di default
+    virtual bool action(RunContext *ctx);
 };
 
 #endif

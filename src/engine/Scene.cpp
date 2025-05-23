@@ -163,13 +163,37 @@ void Scene::init(InitContext &ctx) {
 void Scene::run(RunContext *ctx) {
     // controlliamo l'input che manda l'utente
     switch (ctx->getInput()) {
-        // FRECCIA SU
+        // FRECCIA SU/SINISTRA
+        case LEFT:
         case UP:
+            // controlliamo se ci sta un elemento in focus
+            if (this->focus != nullptr) {
+                // se ci sta, controlliamo se sia un Actionable
+                if (const auto actionable = dynamic_cast<Actionable *>(this->focus->drawable);
+                    actionable != nullptr) {
+                    // se lo e', avvisiamolo dell'azione e controlliamo se dobbiamo fare anche l'azione di default
+                    if (actionable->action(ctx)) {
+                        break;
+                    }
+                }
+            }
             // di default mandiamo il focus verso l'alto
             this->focusUp();
             break;
-        // FRECCIA GIU'
+        // FRECCIA GIU'/DESTRA
+        case RIGHT:
         case DOWN:
+            // controlliamo se ci sta un elemento in focus
+            if (this->focus != nullptr) {
+                // se ci sta, controlliamo se sia un Actionable
+                if (const auto actionable = dynamic_cast<Actionable *>(this->focus->drawable);
+                    actionable != nullptr) {
+                    // se lo e', avvisiamolo dell'azione e controlliamo se dobbiamo fare anche l'azione di default
+                    if (actionable->action(ctx)) {
+                        break;
+                    }
+                }
+            }
             // di default mandiamo il focus verso il basso
             this->focusDown();
             break;
