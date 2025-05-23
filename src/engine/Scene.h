@@ -34,6 +34,9 @@ public:
 
     [[nodiscard]] Drawable *get(int idx) const;
 
+    /// Sposta il focus a un elemento selezionato
+    void moveFocus(int idx);
+
     /// Sposta il focus verso la testa della lista
     void focusUp();
 

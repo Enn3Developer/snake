@@ -1,7 +1,7 @@
 #include "Snake.h"
 
 int Snake::height() {
-    return 30;
+    return 27;
 }
 
 int Snake::width() {
@@ -10,3 +10,8 @@ int Snake::width() {
 
 void Snake::draw(DrawContext *ctx) {
 }
+
+bool Snake::action(RunContext *ctx) {
+    return false;
+}
+

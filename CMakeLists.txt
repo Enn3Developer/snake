@@ -26,6 +26,10 @@ add_executable(snake src/main.cpp
         src/engine/components/Scrollable.cpp
         src/engine/components/Scrollable.h
         src/game/scenes/LeaderboardScene.cpp
-        src/game/scenes/LeaderboardScene.h)
+        src/game/scenes/LeaderboardScene.h
+        src/game/scenes/GameScene.cpp
+        src/game/scenes/GameScene.h
+        src/engine/components/Modal.cpp
+        src/engine/components/Modal.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})

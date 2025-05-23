@@ -52,6 +52,32 @@ Drawable *Scene::get(int idx) const {
     return l->drawable;
 }
 
+void Scene::moveFocus(int idx) {
+    // controlla se ci sta gia' un elemento in focus
+    if (this->focus != nullptr) {
+        // se ci sta, avvisa l'elemento che non e' piu' in focus
+        this->focus->drawable->setHover(false);
+        this->focus = nullptr;
+    }
+
+    // partendo dalla testa della lista
+    p_list l = this->h_drawables;
+
+    // va avanti fino a trovare l'elemento richiesto
+    while (idx > 0 || l != nullptr) {
+        l = l->next;
+        idx--;
+    }
+
+    // se l'elemento richiesto esiste
+    if (l != nullptr) {
+        // allora imposta il nuovo focus
+        l->drawable->setHover(true);
+        this->focus = l;
+    }
+}
+
+
 void Scene::focusUp() {
     // se un elemento e' gia' in focus
     if (this->focus != nullptr) {
@@ -212,7 +238,7 @@ void Scene::run(RunContext *ctx) {
         // TASTO ESCAPE
         case ESCAPE:
             // se la scena non annulla l'azione
-            if (this->onEscape(ctx)) {
+            if (!this->onEscape(ctx)) {
                 // allora chiediamo l'uscita dal gioco all'engine
                 ctx->queueExit();
             }
@@ -286,5 +312,5 @@ int Scene::getCenteredX(Drawable *drawable) {
 }
 
 bool Scene::onEscape(RunContext *ctx) {
-    return true;
+    return false;
 }

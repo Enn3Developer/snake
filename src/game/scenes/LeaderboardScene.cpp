@@ -63,5 +63,5 @@ const char *LeaderboardScene::getTitle() {
 
 bool LeaderboardScene::onEscape(RunContext *ctx) {
     onMenu(ctx);
-    return false;
+    return true;
 }

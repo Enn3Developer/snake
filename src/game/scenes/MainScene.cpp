@@ -1,8 +1,10 @@
 #include "MainScene.h"
 
+#include "GameScene.h"
 #include "LeaderboardScene.h"
 
 LeaderboardScene leaderboard_scene;
+GameScene game_scene;
 
 void onExit(RunContext *ctx) {
     // avvisa l'engine di uscire dal gioco
@@ -12,6 +14,13 @@ void onExit(RunContext *ctx) {
 void onLeaderboard(RunContext *ctx) {
     // inizializza una nuova LeaderboardScene
     leaderboard_scene = *new LeaderboardScene();
+    // e chiede all'engine di passare a quella scena
+    ctx->queueScene(&leaderboard_scene);
+}
+
+void onGame(RunContext *ctx) {
+    // inizializza una nuova GameScene
+    game_scene = *new GameScene();
     // e chiede all'engine di passare a quella scena
     ctx->queueScene(&leaderboard_scene);
 }
@@ -38,6 +47,7 @@ MainScene::MainScene() {
     this->exitBtn.setPosition(getCenteredX(&this->exitBtn), 14);
 
     // impostazione delle azioni dei pulsanti
+    this->newGameBtn.setOnClick(onGame);
     this->leaderboardBtn.setOnClick(onLeaderboard);
     this->exitBtn.setOnClick(onExit);
 }
