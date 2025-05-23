@@ -209,6 +209,17 @@ void Scene::run(RunContext *ctx) {
                 }
             }
             break;
+        // TASTO ESCAPE
+        case ESCAPE:
+            // se la scena non annulla l'azione
+            if (this->onEscape(ctx)) {
+                // allora chiediamo l'uscita dal gioco all'engine
+                ctx->queueExit();
+            }
+            break;
+        // NESSUN TASTO
+        case NONE:
+            break;
         // CLICK SINISTRO DEL MOUSE
         case CLICKED:
             // prendiamo la posizione del mouse al momento del click
@@ -272,4 +283,8 @@ int Scene::getCenteredX(Drawable *drawable) {
     // calcoliamo la posizione centrale nell'asse X per un drawable
     const auto x = 80 - drawable->width();
     return x % 2 ? x / 2 : (x - 1) / 2;
+}
+
+bool Scene::onEscape(RunContext *ctx) {
+    return true;
 }

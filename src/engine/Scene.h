@@ -58,6 +58,9 @@ public:
     /// Chiamato la prima volta dall'engine quando istanzia una nuova scena
     virtual const char *getTitle();
 
+    /// Chiamato quando l'utente preme il tasto ESCAPE
+    virtual bool onEscape(RunContext *ctx);
+
     virtual ~Scene();
 };
 

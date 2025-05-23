@@ -46,4 +46,3 @@ const char *MainScene::getTitle() {
     // titolo della scena
     return "Snake";
 }
-

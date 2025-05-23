@@ -12,6 +12,7 @@ Engine::Engine(const int height, const int width, const int startX, const int st
     initscr();
     noecho();
     nodelay(stdscr, true);
+    set_escdelay(0);
     keypad(stdscr, true);
     curs_set(0);
     mousemask(BUTTON1_CLICKED, nullptr);
@@ -97,12 +98,8 @@ void Engine::input(RunContext *ctx) {
         case ' ':
             input = CONFIRM;
             break;
-        case 27: // ESCAPE o ALT
-            // se l'if e' vero
-            if (getch() == ERR) {
-                // allora il tasto premuto e' ESCAPE
-                input = ESCAPE;
-            }
+        case 27: // ESCAPE
+            input = ESCAPE;
             break;
         case KEY_MOUSE:
             // in caso di click del mouse prendiamo i dati rilevanti e controlliamo che non ci siano stati errori

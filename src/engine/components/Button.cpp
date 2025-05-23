@@ -34,7 +34,7 @@ void Button::draw(DrawContext *ctx) {
 }
 
 bool Button::action(RunContext *ctx) {
-    if (ctx->getInput() == CLICKED | CONFIRM) {
+    if (ctx->getInput() == CLICKED || ctx->getInput() == CONFIRM) {
         if (this->click != nullptr) {
             this->click(ctx);
             return true;
