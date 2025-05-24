@@ -6,7 +6,7 @@ MainScene main_menu_scene;
 
 GameScene::GameScene(): modal("Do you want to quit the game?") {
     this->modal.setVisible(false);
-    this->modal.setPosition(1, 1);
+    this->modal.setPosition(getCenteredX(&modal), 12);
 
     this->add(&this->modal);
 }
