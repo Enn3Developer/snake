@@ -1,5 +1,7 @@
 #include "File.h"
 
+#include <cstring>
+
 File::File(const char *filename) {
     // apre il file
     this->file.open(filename);
@@ -58,3 +60,14 @@ char File::readChar() {
     // infine lo ritorna
     return c;
 }
+
+void File::readLine(char *str) {
+    char c = this->readChar();
+
+    while (c != '\0' && c != '\n') {
+        strncat(str, &c, 1);
+
+        c = this->readChar();
+    }
+}
+

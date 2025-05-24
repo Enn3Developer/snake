@@ -28,6 +28,9 @@ public:
 
     /// Legge un singolo carattere dal file
     char readChar();
+
+    /// Legge un'intera riga
+    void readLine(char *str);
 };
 
 #endif
