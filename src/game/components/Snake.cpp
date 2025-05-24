@@ -1,11 +1,11 @@
 #include "Snake.h"
 
 int Snake::height() {
-    return 27;
+    return SNAKE_HEIGHT;
 }
 
 int Snake::width() {
-    return 80;
+    return SNAKE_WIDTH;
 }
 
 void Snake::draw(DrawContext *ctx) {

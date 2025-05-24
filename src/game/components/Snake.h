@@ -3,6 +3,9 @@
 #include "../../engine/Actionable.h"
 #include "../../engine/Drawable.h"
 
+#define SNAKE_WIDTH 80
+#define SNAKE_HEIGHT 27
+
 class Snake final : public Drawable, public Actionable {
 private:
     bool *snakeGrid[];
