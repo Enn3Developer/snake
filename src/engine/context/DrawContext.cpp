@@ -21,7 +21,6 @@ WINDOW *DrawContext::getWindow() const {
     return this->win;
 }
 
-
 void DrawContext::prepare(const bool redraw) const {
     // se viene forzato il redraw dell'intera finestra
     if (redraw) {
@@ -38,11 +37,9 @@ void DrawContext::prepare(const bool redraw) const {
     mvwprintw(this->win, 0, 2, this->title);
 }
 
-
 void DrawContext::refresh() const {
     wrefresh(this->win);
 }
-
 
 void DrawContext::setTitle(const char *title) {
     this->title = title;
@@ -93,7 +90,43 @@ void DrawContext::write(const char *txt) const {
     wprintw(win, txt);
 }
 
-
 void DrawContext::writeAt(const char *txt, const int x, const int y) const {
     mvwprintw(win, y, x, txt);
+}
+
+void DrawContext::coloredWriteAt(int color, const char *txt, int x, int y) {
+    this->enableColor(color);
+
+    this->writeAt(txt, x, y);
+
+    this->disableColor(color);
+}
+
+void DrawContext::drawBackground(int color, int x, int y, int width, int height) {
+    this->enableColor(color);
+
+    for (int currentX = x; currentX < width + x; currentX++) {
+        for (int currentY = y; currentY < height + y; currentY++) {
+            this->writeAt(" ", currentX, currentY);
+        }
+    }
+
+    this->disableColor(color);
+}
+
+void DrawContext::drawBox(int color, int x, int y, int width, int height) {
+    this->enableColor(color);
+
+    mvwhline(this->win, y, x, 0, width);
+    mvwhline(this->win, y + height - 1, x, 0, width);
+
+    mvwvline(this->win, y, x, 0, height);
+    mvwvline(this->win, y, x+width - 1, 0, height);
+
+    mvwadd_wch(this->win, y, x, WACS_ULCORNER);
+    mvwadd_wch(this->win, y, x+width-1, WACS_URCORNER);
+    mvwadd_wch(this->win, y+height-1, x, WACS_LLCORNER);
+    mvwadd_wch(this->win, y+height-1, x+width-1, WACS_LRCORNER);
+
+    this->disableColor(color);
 }

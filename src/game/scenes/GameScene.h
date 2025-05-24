@@ -5,14 +5,14 @@
 
 class GameScene final : public Scene {
 private:
-    bool modal_open = false;
-    bool modal_confirm = false;
     Modal modal;
 
 public:
     GameScene();
 
     const char *getTitle() override;
+
+    void run(RunContext *ctx) override;
 
     bool onEscape(RunContext *ctx) override;
 };

@@ -22,7 +22,7 @@ void onGame(RunContext *ctx) {
     // inizializza una nuova GameScene
     game_scene = *new GameScene();
     // e chiede all'engine di passare a quella scena
-    ctx->queueScene(&leaderboard_scene);
+    ctx->queueScene(&game_scene);
 }
 
 MainScene::MainScene() {

@@ -64,7 +64,7 @@ void Scene::moveFocus(int idx) {
     p_list l = this->h_drawables;
 
     // va avanti fino a trovare l'elemento richiesto
-    while (idx > 0 || l != nullptr) {
+    while (idx > 0 && l != nullptr) {
         l = l->next;
         idx--;
     }
@@ -284,6 +284,8 @@ void Scene::click(RunContext *ctx, const int x, const int y) {
             // controlliamo che il drawable sia anche un Actionable
             if (auto *actionable = dynamic_cast<Actionable *>(drawable);
                 actionable != nullptr) {
+                // aggiorna la posizione del mouse
+                ctx->setMousePosition(x, y);
                 // avvisiamo il drawable che ora e' in focus
                 drawable->setHover(true);
                 // impostiamo il focus a quell'elemento
