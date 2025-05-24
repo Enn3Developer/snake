@@ -16,24 +16,31 @@ const char *GameScene::getTitle() {
 }
 
 void GameScene::run(RunContext *ctx) {
+    // esegue la logica base della scena
     Scene::run(ctx);
 
+    // ottiene il puntatore al modal della scena e lo casta a Modal
     Drawable *modal_drawable = this->get(0);
     auto *modal = dynamic_cast<Modal *>(modal_drawable);
 
+    // se e' ancora aperto il modal, non fare nulla
     if (modal->isOpen()) return;
 
-
+    // se il modal non e' visibile, non fare nulla
     if (!modal->isVisible()) return;
 
+    // altrimenti (se deve essere chiuso perche' l'utente ha compiuto un'azione) allora rendilo invisibile
     modal->setVisible(false);
+    // e, se l'utente ha confermato l'azione
     if (modal->isConfirmed()) {
+        // allora ritorna al menu principale
         main_menu_scene = *new MainScene();
         ctx->queueScene(&main_menu_scene);
     }
 }
 
 bool GameScene::onEscape(RunContext *ctx) {
+    // ottiene il puntatore al modal della scena e lo casta a Modal
     Drawable *modal_drawable = this->get(0);
     auto *modal = dynamic_cast<Modal *>(modal_drawable);
 
@@ -47,5 +54,6 @@ bool GameScene::onEscape(RunContext *ctx) {
         this->moveFocus(0);
     }
 
+    // infine, annulla l'uscita dal gioco
     return true;
 }

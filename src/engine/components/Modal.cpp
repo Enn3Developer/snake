@@ -53,25 +53,38 @@ bool Modal::action(RunContext *ctx) {
         case UP:
         case LEFT:
         case RIGHT:
+            // sposta il focus tra i pulsanti (cancel e ok)
             this->confirm_focused = !this->confirm_focused;
             break;
         case CONFIRM:
+            // conferma l'azione del pulsante selezionato
             this->confirm = this->confirm_focused;
+            // e chiudi il modal
             this->closeModal();
             break;
         case CLICKED:
+            // ottiene la posizione del mouse
             int *position = ctx->getMousePosition();
             int x = position[0];
             int y = position[1];
+
+            // calcola la larghezza del modal
             int width = this->width();
+
+            // se il click e' avvenuto sulla riga dei pulsanti
             if (y == this->y + 3) {
+                // se e' stato premuto cancel
                 if (x >= this->x + 1 && x < this->x + 1 + 6) {
+                    // allora annulliamo l'azione e chiudiamo il modal
                     this->confirm_focused = false;
                     this->confirm = false;
                     this->closeModal();
                     break;
                 }
+
+                // altrimenti, controlliamo se sia stato premuto ok
                 if (x >= this->x + width - 3 && x < this->x + width - 1) {
+                    // in quel caso confermiamo l'azione e chiudiamo il modal
                     this->confirm_focused = true;
                     this->confirm = true;
                     this->closeModal();
@@ -84,16 +97,28 @@ bool Modal::action(RunContext *ctx) {
 }
 
 void Modal::draw(DrawContext *ctx) {
+    // registra il colore se non ancora e' stato registrato
     if (this->color_id == -1) {
         this->color_id = ctx->registerColorPair(*new ColorPair(COLOR_BLACK, COLOR_WHITE));
     }
 
+    // ottiene le dimensioni del modal
     int width = this->width();
     int height = this->height();
 
+    // disegna il background del modal
     ctx->drawBackground(this->color_id, this->x, this->y, width, height);
+
+    // disegna il box che contiene tutto il modal
     ctx->drawBox(this->color_id, this->x, this->y, width, height);
+
+    // scrive il messaggio del modal
     ctx->coloredWriteAt(this->color_id, this->message, this->x + 1, this->y + 1);
+
+    // scrive i pulsanti del modal e cambia colore in base a se sono in focus o meno
+    // colore 0 -> colore default (white, black)
+    // colore color_id -> colore del modal (black, white)
+    // le posizioni dei pulsanti sono Cancel tutto a sinistra e Ok tutto a destra
     ctx->coloredWriteAt(this->confirm_focused ? this->color_id : 0, "Cancel", this->x + 1, this->y + 3);
     ctx->coloredWriteAt(this->confirm_focused ? 0 : this->color_id, "Ok", this->x + width - 3, this->y + 3);
 }
