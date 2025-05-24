@@ -4,6 +4,13 @@
 #include "../../engine/Drawable.h"
 
 class Snake final : public Drawable, public Actionable {
+private:
+    bool *snakeGrid[];
+    int length;
+    int h_snake;
+    int t_snake;
+    int apple;
+
 public:
     int width() override;
 

@@ -2,7 +2,7 @@
 #define ENGINE_H
 #include "Scene.h"
 
-#define MILLIS_PER_FRAME 8
+#define MILLIS_PER_FRAME 15
 
 class Engine {
 private:
