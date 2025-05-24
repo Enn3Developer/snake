@@ -30,6 +30,8 @@ add_executable(snake src/main.cpp
         src/game/scenes/GameScene.cpp
         src/game/scenes/GameScene.h
         src/engine/components/Modal.cpp
-        src/engine/components/Modal.h)
+        src/engine/components/Modal.h
+        src/game/Score.cpp
+        src/game/Score.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})
