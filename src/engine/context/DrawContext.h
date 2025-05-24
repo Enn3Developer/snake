@@ -51,10 +51,13 @@ public:
     /// Scrive del testo dentro alla finestra alla posizione richiesta
     void writeAt(const char *txt, int x, int y) const;
 
+    /// Scrive del testo colorato dentro alla finestra alla posizione richiesta
     void coloredWriteAt(int color, const char *txt, int x, int y);
 
+    /// Disegna un background rettangolare che parte dalla posizione richiesta e grande quanto la dimensione richiesta
     void drawBackground(int color, int x, int y, int width, int height);
 
+    /// Disegna i bordi di un rettangolo alla posizione richiesta con le dimensioni richieste
     void drawBox(int color, int x, int y, int width, int height);
 };
 

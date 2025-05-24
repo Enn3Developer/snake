@@ -105,8 +105,10 @@ void DrawContext::coloredWriteAt(int color, const char *txt, int x, int y) {
 void DrawContext::drawBackground(int color, int x, int y, int width, int height) {
     this->enableColor(color);
 
+    // per ogni pixel del rettangolo del background
     for (int currentX = x; currentX < width + x; currentX++) {
         for (int currentY = y; currentY < height + y; currentY++) {
+            // scrive un carattere vuoto con il colore richiesto
             this->writeAt(" ", currentX, currentY);
         }
     }
@@ -117,12 +119,15 @@ void DrawContext::drawBackground(int color, int x, int y, int width, int height)
 void DrawContext::drawBox(int color, int x, int y, int width, int height) {
     this->enableColor(color);
 
+    // le due linee orizzontali (sopra, sotto)
     mvwhline(this->win, y, x, 0, width);
     mvwhline(this->win, y + height - 1, x, 0, width);
 
+    // le due linee verticali (sinistra, destra)
     mvwvline(this->win, y, x, 0, height);
     mvwvline(this->win, y, x+width - 1, 0, height);
 
+    // infine, i quattro angoli (U = sopra, L = sotto; L = sinistra, R = destra)
     mvwadd_wch(this->win, y, x, WACS_ULCORNER);
     mvwadd_wch(this->win, y, x+width-1, WACS_URCORNER);
     mvwadd_wch(this->win, y+height-1, x, WACS_LLCORNER);
