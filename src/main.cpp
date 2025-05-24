@@ -9,5 +9,7 @@ int main() {
     // avvio del gioco
     engine->start(mainScene);
 
+    delete mainScene;
+    delete engine;
     return 0;
 }
