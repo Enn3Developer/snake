@@ -8,7 +8,7 @@
 
 class Snake final : public Drawable, public Actionable {
 private:
-    bool *snakeGrid[];
+    bool *snakeGrid;
     int length;
     int h_snake;
     int t_snake;

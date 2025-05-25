@@ -17,7 +17,6 @@ private:
     p_list head;
     int list_size;
 
-    Label testLabel;
     Scrollable scrollable;
     Button menuBtn;
 

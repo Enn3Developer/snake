@@ -1,5 +1,7 @@
 #include "LeaderboardScene.h"
 
+#include <cstring>
+
 #include "MainScene.h"
 #include "../../engine/File.h"
 
@@ -22,8 +24,15 @@ LeaderboardScene::LeaderboardScene(): scrollable(1, 27, 79) {
 
     while (!file->eof()) {
         file->readLine(line);
+
+        if (strlen(line) == 0) continue;
+
         Score score = *new Score();
         score.fromString(line);
+        int line_len = strlen(line);
+        for (int i = 0; i < line_len; i++) {
+            line[i] = '\0';
+        }
 
         this->addScore(score);
     }
@@ -31,41 +40,22 @@ LeaderboardScene::LeaderboardScene(): scrollable(1, 27, 79) {
     delete file;
 
     // inizializzazione dei drawable
-    this->testLabel = *new Label();
-    this->testLabel.setText("Test");
+
+    p_list l = this->head;
+
+    while (l != nullptr) {
+        char *score = new char[257]{};
+        l->score.toString(score);
+        auto label = new Label();
+        label->setText(score);
+        scrollable.add(label);
+        l = l->next;
+    }
 
     this->menuBtn = *new Button();
     this->menuBtn.setText("Main menu");
     this->menuBtn.setPosition(70, 28);
     this->menuBtn.setOnClick(onMenu);
-
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
-    this->scrollable.add(&testLabel);
 
     this->scrollable.setPosition(1, 1);
 
@@ -75,6 +65,7 @@ LeaderboardScene::LeaderboardScene(): scrollable(1, 27, 79) {
 
 void LeaderboardScene::addScore(Score score) {
     auto new_l = new list{score, nullptr};
+    this->list_size += 1;
 
     // se la testa e' vuota
     if (this->head == nullptr) {
