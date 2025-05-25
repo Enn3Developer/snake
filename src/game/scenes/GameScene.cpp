@@ -5,10 +5,15 @@
 MainScene main_menu_scene;
 
 GameScene::GameScene(): modal("Do you want to quit the game?") {
+    this->snake = new Snake(3, 4);
+
     this->modal.setVisible(false);
     this->modal.setPosition(getCenteredX(&modal), 12);
 
     this->add(&this->modal);
+    this->add(this->snake);
+
+    this->moveFocus(1);
 }
 
 const char *GameScene::getTitle() {
@@ -18,6 +23,8 @@ const char *GameScene::getTitle() {
 void GameScene::run(RunContext *ctx) {
     // esegue la logica base della scena
     Scene::run(ctx);
+
+    this->snake->tick();
 
     // ottiene il puntatore al modal della scena e lo casta a Modal
     Drawable *modal_drawable = this->get(0);
