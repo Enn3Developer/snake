@@ -3,8 +3,8 @@
 #include "../../engine/Actionable.h"
 #include "../../engine/Drawable.h"
 
-#define SNAKE_WIDTH 80
-#define SNAKE_HEIGHT 27
+#define SNAKE_WIDTH 78
+#define SNAKE_HEIGHT 28
 
 typedef enum direction {
     D_UP, D_DOWN, D_LEFT, D_RIGHT
@@ -42,7 +42,11 @@ public:
 
     void addSnakePosition(position pos);
 
-    bool tick();
+    void generateApple();
+
+    bool isInSnake(position pos);
+
+    int tick();
 
     int width() override;
 

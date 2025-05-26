@@ -1,5 +1,7 @@
 #include "Snake.h"
 
+#include <cstdlib>
+
 #include "../../engine/context/RunContext.h"
 
 Snake::Snake(int length, int speed) {
@@ -32,10 +34,27 @@ void Snake::addSnakePosition(position pos) {
     this->h_snake = new_pos;
 }
 
-bool Snake::tick() {
+void Snake::generateApple() {
+    int width = this->width() - 1;
+    int height = this->height() - 1;
+
+    do {
+        this->apple = {rand() % width, rand() % height};
+    } while (isInSnake(this->apple));
+}
+
+bool Snake::isInSnake(position pos) {
+    for (p_list l = this->h_snake; l != nullptr; l = l->next) {
+        if (pos.x == l->pos.x && pos.y == l->pos.y) return true;
+    }
+
+    return false;
+}
+
+int Snake::tick() {
     this->remaining_ticks -= 1;
 
-    if (this->remaining_ticks > 0) return false;
+    if (this->remaining_ticks > 0) return 0;
     this->remaining_ticks = speed;
 
     int dir_x = 0;
@@ -65,7 +84,7 @@ bool Snake::tick() {
     if (pos.y >= this->height()) pos.y = 0;
 
     if (this->snakeGrid[pos.y][pos.x]) {
-        return true;
+        return -1;
     }
 
     this->snakeGrid[this->t_snake->pos.y][this->t_snake->pos.x] = false;
@@ -75,7 +94,12 @@ bool Snake::tick() {
     this->addSnakePosition(pos);
     this->snakeGrid[this->h_snake->pos.y][this->h_snake->pos.x] = true;
 
-    return false;
+    if (pos.x == apple.x && pos.y == apple.y) {
+        this->generateApple();
+        return 5;
+    }
+
+    return 0;
 }
 
 int Snake::height() {
