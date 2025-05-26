@@ -5,7 +5,7 @@
 MainScene main_menu_scene;
 
 GameScene::GameScene(): modal("Do you want to quit the game?") {
-    this->snake = new Snake(3, 4);
+    this->snake = new Snake(6, 8);
 
     this->modal.setVisible(false);
     this->modal.setPosition(getCenteredX(&modal), 12);
@@ -24,14 +24,16 @@ void GameScene::run(RunContext *ctx) {
     // esegue la logica base della scena
     Scene::run(ctx);
 
-    this->snake->tick();
-
     // ottiene il puntatore al modal della scena e lo casta a Modal
     Drawable *modal_drawable = this->get(0);
     auto *modal = dynamic_cast<Modal *>(modal_drawable);
 
     // se e' ancora aperto il modal, non fare nulla
     if (modal->isOpen()) return;
+
+    if (this->snake->tick()) {
+        // TODO: lose
+    }
 
     // se il modal non e' visibile, non fare nulla
     if (!modal->isVisible()) return;

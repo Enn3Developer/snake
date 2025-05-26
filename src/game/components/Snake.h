@@ -17,21 +17,32 @@ private:
         int y;
     };
 
+    struct list {
+        position pos;
+        list *next;
+        list *prev;
+    };
+
+    typedef list *p_list;
+
+    p_list h_snake;
+    p_list t_snake;
+
     bool (*snakeGrid)[SNAKE_WIDTH];
     int length;
     int speed;
     int remaining_ticks;
     int snake_color_id;
     int apple_color_id;
-    position h_snake;
-    position t_snake;
     position apple;
     Direction direction;
 
 public:
     Snake(int length, int speed);
 
-    void tick();
+    void addSnakePosition(position pos);
+
+    bool tick();
 
     int width() override;
 
