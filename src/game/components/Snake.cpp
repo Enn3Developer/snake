@@ -35,8 +35,8 @@ void Snake::addSnakePosition(position pos) {
 }
 
 void Snake::generateApple() {
-    int width = this->width() - 1;
-    int height = this->height() - 1;
+    int width = this->width();
+    int height = this->height();
 
     do {
         this->apple = {rand() % width, rand() % height};
