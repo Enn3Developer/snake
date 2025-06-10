@@ -4,7 +4,7 @@
 
 File::File(const char *filename) {
     // apre il file
-    this->file.open(filename);
+    this->file.open(filename, std::fstream::in | std::fstream::out | std::fstream::app);
 
     // imposta closed a false per segnalare che il file e' ancora aperto
     this->closed = false;

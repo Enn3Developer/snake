@@ -4,7 +4,9 @@
 #include <ctime>
 
 #include "MainScene.h"
+#include "../Score.h"
 #include "../../engine/Engine.h"
+#include "../../engine/File.h"
 #include "../../engine/components/Label.h"
 
 MainScene main_menu_scene;
@@ -12,6 +14,10 @@ MainScene main_menu_scene;
 GameScene::GameScene(int length, int speed) {
     // assicuriamoci che venga assegnato un seed iniziale ad ogni nuova partita basandoci sull'epoch attuale
     srand(time(nullptr));
+
+    // inizializziamo la variabile che determina se il giocatore ha vinto o perso
+    // lasciamo a false e se vince la impostiamo a true
+    this->won = false;
 
     // inizializziamo le variabili del punteggio
     this->pointsStr = new char[50];
@@ -80,6 +86,24 @@ void GameScene::run(RunContext *ctx) {
     if (this->alert->isOpen()) return;
     // altrimenti, se e' stato chiuso ma e' ancora visibile
     if (this->alert->isVisible()) {
+        // apre l'handle del file
+        auto file = new File("leaderboard.txt");
+
+        // crea il punteggio e assegna i valori giusti
+        auto score = new Score();
+        score->score = this->points;
+        score->level = 1;
+
+        // crea il buffer
+        char *line = new char[257]{};
+        // scrive il punteggio sul buffer
+        score->toString(line);
+
+        // aggiunge alla fine del file il punteggio in stringa
+        file->writeLine(line);
+        // chiude l'handle del file
+        delete file;
+
         // allora ritorna al menu principale
         main_menu_scene = *new MainScene();
         ctx->queueScene(&main_menu_scene);
@@ -92,6 +116,9 @@ void GameScene::run(RunContext *ctx) {
 
     // se il timer termina
     if (this->timer <= 0) {
+        // allora il giocatore ha vinto
+        this->won = true;
+
         // mostriamo l'alert per segnalare la vittoria
         this->alert->setMsg("You won");
         this->alert->setVisible(true);

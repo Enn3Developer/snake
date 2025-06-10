@@ -22,6 +22,7 @@ private:
     char *timerStr;
     int timer;
     int bonusPoints;
+    bool won;
 
 public:
     GameScene(int length, int speed);
