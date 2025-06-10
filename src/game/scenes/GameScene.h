@@ -24,7 +24,7 @@ private:
     int bonusPoints;
 
 public:
-    GameScene();
+    GameScene(int length, int speed);
 
     void setBonusPoints(int bonusPoints);
 

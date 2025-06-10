@@ -4,7 +4,7 @@
 #include "LeaderboardScene.h"
 
 LeaderboardScene leaderboard_scene;
-GameScene game_scene;
+GameScene *game_scene;
 
 void onExit(RunContext *ctx) {
     // avvisa l'engine di uscire dal gioco
@@ -20,9 +20,9 @@ void onLeaderboard(RunContext *ctx) {
 
 void onGame(RunContext *ctx) {
     // inizializza una nuova GameScene
-    game_scene = *new GameScene();
+    game_scene = new GameScene(6, 8);
     // e chiede all'engine di passare a quella scena
-    ctx->queueScene(&game_scene);
+    ctx->queueScene(game_scene);
 }
 
 MainScene::MainScene() {

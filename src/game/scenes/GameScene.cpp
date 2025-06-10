@@ -9,25 +9,33 @@
 
 MainScene main_menu_scene;
 
-GameScene::GameScene() {
+GameScene::GameScene(int length, int speed) {
+    // assicuriamoci che venga assegnato un seed iniziale ad ogni nuova partita basandoci sull'epoch attuale
     srand(time(nullptr));
+
+    // inizializziamo le variabili del punteggio
     this->pointsStr = new char[50];
     this->points = 0;
     this->bonusPoints = 1;
 
+    // inizializziamo le variabili del timer
     this->timerStr = new char[50];
     this->timer = ONE_MINUTE;
 
-    this->snake = new Snake(6, 8);
+    // inizializziamo il serpente che gestira' anche il campo di gioco
+    this->snake = new Snake(length, speed);
     this->snake->setPosition(1, 1);
 
+    // inizializziamo il modal che viene usato quando l'utente mette in pausa il gioco
     this->modal = new Modal("Do you want to quit the game?");
     this->modal->setVisible(false);
     this->modal->setPosition(getCenteredX(this->modal), 12);
 
+    // inizializziamo l'alert che viene usato per segnalare una vittoria o una sconfitta
     this->alert = new Alert();
     this->alert->setVisible(false);
 
+    // inizializziamo le label del punteggio e del tempo
     this->pointsLabel = new Label;
     this->pointsLabel->setText(this->pointsStr);
     this->pointsLabel->setColor(*new ColorPair(COLOR_CYAN, COLOR_BLACK));
@@ -38,6 +46,7 @@ GameScene::GameScene() {
     this->timerLabel->setColor(*new ColorPair(COLOR_YELLOW, COLOR_BLACK));
     this->timerLabel->setPosition(48, 0);
 
+    // inizializziamo le stringhe delle label
     sprintf(this->pointsStr, "Points: 0");
     sprintf(this->timerStr, "Time: %d", this->timer / 1000);
 
@@ -47,6 +56,8 @@ GameScene::GameScene() {
     this->add(this->pointsLabel);
     this->add(this->timerLabel);
 
+    // spostiamo immediatamente il focus al drawable corrispondente al campo di gioco
+    // 0 perche' this->snake e' il primo elemento
     this->moveFocus(0);
 }
 
