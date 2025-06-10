@@ -1,5 +1,6 @@
 #ifndef RUNCONTEXT_H
 #define RUNCONTEXT_H
+#include "../ColorPair.h"
 
 class Scene;
 
@@ -26,6 +27,8 @@ protected:
     bool exit;
     /// Forza l'engine a usare il `clear()` anziché di `werase(WINDOW*)`
     bool redraw;
+    /// Chiede all'engine di usare questo colore per la box
+    ColorPair boxColor;
 
 public:
     RunContext();
@@ -63,6 +66,10 @@ public:
 
     /// Puntatore alla nuova scena da usare
     [[nodiscard]] Scene *newScene() const;
+
+    void setBoxColor(ColorPair color);
+
+    ColorPair getBoxColor();
 };
 
 #endif

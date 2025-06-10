@@ -1,5 +1,7 @@
 #include "RunContext.h"
 
+#include "DrawContext.h"
+
 RunContext::RunContext() {
     // valori di default del RunContext
     this->input = NONE;
@@ -7,6 +9,7 @@ RunContext::RunContext() {
     this->exit = false;
     this->redraw = false;
     this->x = 0, this->y = 0;
+    this->boxColor = DEFAULT_COLOR_PAIR;
 }
 
 RunContext::~RunContext() = default;
@@ -57,4 +60,12 @@ bool RunContext::redrawForced() const {
 
 Scene *RunContext::newScene() const {
     return this->switchScene;
+}
+
+void RunContext::setBoxColor(ColorPair color) {
+    this->boxColor = color;
+}
+
+ColorPair RunContext::getBoxColor() {
+    return this->boxColor;
 }

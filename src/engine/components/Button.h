@@ -7,8 +7,13 @@ class Button final : public Drawable, public Actionable {
 private:
     /// ID del colore da usare quando è in focus
     int hoverColor;
+    /// ID del colore da usare quando non e' in focus
+    int normalColor;
     /// Testo del bottone
     const char *txt;
+
+    ColorPair normalColorPair;
+    ColorPair hoverColorPair;
 
     /// Funzione da eseguire quando viene premuto
     void (*click)(RunContext *ctx);
@@ -19,6 +24,10 @@ public:
     ~Button() override;
 
     void setText(const char *txt);
+
+    void setNormalColor(ColorPair color);
+
+    void setHoverColor(ColorPair color);
 
     void setOnClick(void (*click)(RunContext *ctx));
 

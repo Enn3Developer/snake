@@ -35,6 +35,8 @@ add_executable(snake src/main.cpp
         src/game/Score.cpp
         src/game/Score.h
         src/engine/components/Alert.cpp
-        src/engine/components/Alert.h)
+        src/engine/components/Alert.h
+        src/game/scenes/LevelSelectionScene.cpp
+        src/game/scenes/LevelSelectionScene.h)
 
 target_link_libraries(snake ${CURSES_LIBRARIES})

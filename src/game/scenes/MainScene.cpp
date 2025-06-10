@@ -2,9 +2,10 @@
 
 #include "GameScene.h"
 #include "LeaderboardScene.h"
+#include "LevelSelectionScene.h"
 
 LeaderboardScene leaderboard_scene;
-GameScene *game_scene;
+LevelSelectionScene *level_selection;
 
 void onExit(RunContext *ctx) {
     // avvisa l'engine di uscire dal gioco
@@ -19,10 +20,10 @@ void onLeaderboard(RunContext *ctx) {
 }
 
 void onGame(RunContext *ctx) {
-    // inizializza una nuova GameScene
-    game_scene = new GameScene(6, 8, 1);
+    // inizializza una nuova LevelSelectionScene
+    level_selection = new LevelSelectionScene();
     // e chiede all'engine di passare a quella scena
-    ctx->queueScene(game_scene);
+    ctx->queueScene(level_selection);
 }
 
 MainScene::MainScene() {

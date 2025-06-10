@@ -29,7 +29,7 @@ public:
     void run();
 
     /// Prepara e chiama la funzione `draw` della scena attualmente in uso
-    void draw(bool redraw);
+    void draw(RunContext *ctx);
 
     /// Cambia il titolo della finestra
     void setTitle(const char *title);

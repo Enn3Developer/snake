@@ -155,7 +155,7 @@ void Engine::run() {
         }
 
         // disegniamo la nuova scena
-        this->draw(ctx.redrawForced());
+        this->draw(&ctx);
 
         // e, se ci avanza tempo, fermiamo l'esecuzione in modo da ottenere un framerate fisso
         // per aumentare la fluidita' del gioco
@@ -166,9 +166,23 @@ void Engine::run() {
     }
 }
 
-void Engine::draw(const bool redraw) {
+void Engine::draw(RunContext *ctx) {
+    // se una scena ha fatto richiesta di un colore custom per la box
+    // allora registra il colore e abilitalo
+    int color = 0;
+    if (ctx->getBoxColor() != DEFAULT_COLOR_PAIR) {
+        color = this->drawContext.registerColorPair(ctx->getBoxColor());
+        this->drawContext.enableColor(color);
+    }
+
     // prepariamo la fase del draw
-    this->drawContext.prepare(redraw);
+    this->drawContext.prepare(ctx->redrawForced());
+
+    // se una scena ha fatto richiesta di un colore custom per la box, allora color e' diverso da 0
+    // quindi ora possiamo disattivarlo
+    if (color != 0) {
+        this->drawContext.disableColor(color);
+    }
 
     // avvisiamo la scena che ora puo' fare il draw
     this->scene->draw(&this->drawContext);
