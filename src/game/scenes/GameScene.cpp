@@ -11,13 +11,16 @@
 
 MainScene main_menu_scene;
 
-GameScene::GameScene(int length, int speed) {
+GameScene::GameScene(int length, int speed, int level) {
     // assicuriamoci che venga assegnato un seed iniziale ad ogni nuova partita basandoci sull'epoch attuale
     srand(time(nullptr));
 
     // inizializziamo la variabile che determina se il giocatore ha vinto o perso
     // lasciamo a false e se vince la impostiamo a true
     this->won = false;
+
+    // usato quando andiamo a salvere il punteggio nel file per la visualizzazione nella classifica
+    this->level = level;
 
     // inizializziamo le variabili del punteggio
     this->pointsStr = new char[50];
@@ -92,7 +95,7 @@ void GameScene::run(RunContext *ctx) {
         // crea il punteggio e assegna i valori giusti
         auto score = new Score();
         score->score = this->points;
-        score->level = 1;
+        score->level = level;
 
         // crea il buffer
         char *line = new char[257]{};

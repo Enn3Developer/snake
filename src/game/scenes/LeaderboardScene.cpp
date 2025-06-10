@@ -50,6 +50,12 @@ LeaderboardScene::LeaderboardScene() {
     // chiudiamo l'handle del file
     delete file;
 
+    // creiamo la label legend da aggiungere all'inizio dello scrollable
+    auto legendLabel = new Label();
+    legendLabel->setColor(*new ColorPair(COLOR_GREEN));
+    legendLabel->setText("Score;Level");
+    this->scrollable->add(legendLabel);
+
     // per ogni punteggio nella lista
     p_list l = this->head;
     while (l != nullptr) {
@@ -63,7 +69,7 @@ LeaderboardScene::LeaderboardScene() {
         // impostiamo il testo della label a quella del punteggio convertito in stringa
         label->setText(score);
         // aggiungiamo la label allo scrollable
-        scrollable->add(label);
+        this->scrollable->add(label);
 
         l = l->next;
     }
@@ -78,6 +84,8 @@ LeaderboardScene::LeaderboardScene() {
 
     this->add(this->scrollable);
     this->add(this->menuBtn);
+
+    this->moveFocus(0);
 }
 
 void LeaderboardScene::addScore(Score score) {

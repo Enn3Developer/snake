@@ -23,9 +23,10 @@ private:
     int timer;
     int bonusPoints;
     bool won;
+    int level;
 
 public:
-    GameScene(int length, int speed);
+    GameScene(int length, int speed, int level);
 
     void setBonusPoints(int bonusPoints);
 

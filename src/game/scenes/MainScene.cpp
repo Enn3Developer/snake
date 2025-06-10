@@ -20,7 +20,7 @@ void onLeaderboard(RunContext *ctx) {
 
 void onGame(RunContext *ctx) {
     // inizializza una nuova GameScene
-    game_scene = new GameScene(6, 8);
+    game_scene = new GameScene(6, 8, 1);
     // e chiede all'engine di passare a quella scena
     ctx->queueScene(game_scene);
 }
