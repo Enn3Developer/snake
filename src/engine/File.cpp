@@ -62,11 +62,15 @@ char File::readChar() {
 }
 
 void File::readLine(char *str) {
+    // partendo dal primo carattere
     char c = this->readChar();
 
+    // controlliamo che il carattere non sia un carattere null o di nuova riga
     while (c != '\0' && c != '\n') {
+        // se non lo e', lo concateniamo alla stringa
         strncat(str, &c, 1);
 
+        // e passiamo al carattere successivo
         c = this->readChar();
     }
 }

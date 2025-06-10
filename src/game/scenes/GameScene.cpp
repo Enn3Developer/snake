@@ -74,10 +74,14 @@ void GameScene::run(RunContext *ctx) {
         ctx->queueScene(&main_menu_scene);
     }
 
+    // muove il serpente e calcola i punti per questo tick
     int points = this->snake->tick();
+    // rimuove dal timer il tempo passato dall'ultimo frame (delta)
     this->timer -= MILLIS_PER_FRAME;
 
+    // se il timer termina
     if (this->timer <= 0) {
+        // mostriamo l'alert per segnalare la vittoria
         this->alert->setMsg("You won");
         this->alert->setVisible(true);
         this->alert->openAlert();
@@ -85,15 +89,19 @@ void GameScene::run(RunContext *ctx) {
         this->moveFocus(2);
     }
 
+    // aggiorniamo il timer
     sprintf(this->timerStr, "Time: %d", this->timer / 1000);
 
+    // se il tick del serpente e' risultato in un'evento di sconfitta
     if (points == -1) {
+        // mostriamo l'alert per segnalare la sconfitta
         this->alert->setMsg("You lost");
         this->alert->setVisible(true);
         this->alert->openAlert();
         this->alert->setPosition(getCenteredX(this->alert), 12);
         this->moveFocus(2);
     } else {
+        // altrimenti aggiungiamo i punti al punteggio moltiplicati per il punteggio bonus del livello
         this->points += points * this->bonusPoints;
         sprintf(this->pointsStr, "Points: %d", this->points);
     }

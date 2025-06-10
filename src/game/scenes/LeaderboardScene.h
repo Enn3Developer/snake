@@ -17,8 +17,8 @@ private:
     p_list head;
     int list_size;
 
-    Scrollable scrollable;
-    Button menuBtn;
+    Scrollable *scrollable;
+    Button *menuBtn;
 
 public:
     LeaderboardScene();

@@ -64,6 +64,7 @@ void Alert::draw(DrawContext *ctx) {
 
 bool Alert::action(RunContext *ctx) {
     switch (ctx->getInput()) {
+        // non fare nulla se l'input non e' di tipo conferma
         case UP:
         case DOWN:
         case LEFT:
@@ -73,6 +74,7 @@ bool Alert::action(RunContext *ctx) {
             break;
 
         case CONFIRM:
+            // chiude l'alert
             this->closeAlert();
             break;
         case CLICKED:

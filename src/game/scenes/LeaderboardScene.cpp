@@ -14,53 +14,70 @@ void onMenu(RunContext *ctx) {
     ctx->queueScene(&main_scene);
 }
 
-// inizializza la scrollbar; per qualche motivo al compilatore non gli piace che la inizializzo dentro al costruttore
-LeaderboardScene::LeaderboardScene(): scrollable(1, 27, 79) {
+LeaderboardScene::LeaderboardScene() {
+    // inizializziamo la lista dei punteggi
     this->list_size = 0;
     this->head = nullptr;
+    this->scrollable = new Scrollable(1, 27, 79);
 
+    // apriamo l'handle per il file
     auto file = new File("leaderboard.txt");
+    // inizializziamo il buffer per leggere riga per riga
     char line[257] = {};
 
+    // finche' ci sta del contenuto da leggere
     while (!file->eof()) {
+        // legge tutta la riga
         file->readLine(line);
 
+        // se la riga e' vuota passiamo al prossimo ciclo
         if (strlen(line) == 0) continue;
 
+        // creiamo l'oggetto che conterra' il punteggio
         Score score = *new Score();
+        // convertiamo la stringa del punteggio a un punteggio vero e proprio
         score.fromString(line);
+        // svuotiamo il buffer
         int line_len = strlen(line);
         for (int i = 0; i < line_len; i++) {
             line[i] = '\0';
         }
 
+        // aggiungiamo il punteggio alla lista dei punteggi
         this->addScore(score);
     }
 
+    // chiudiamo l'handle del file
     delete file;
 
-    // inizializzazione dei drawable
-
+    // per ogni punteggio nella lista
     p_list l = this->head;
-
     while (l != nullptr) {
+        // creiamo un buffer in memoria che lo conterra'
         char *score = new char[257]{};
+        // convertiamo il punteggio in una stringa
         l->score.toString(score);
+
+        // creiamo la label
         auto label = new Label();
+        // impostiamo il testo della label a quella del punteggio convertito in stringa
         label->setText(score);
-        scrollable.add(label);
+        // aggiungiamo la label allo scrollable
+        scrollable->add(label);
+
         l = l->next;
     }
 
-    this->menuBtn = *new Button();
-    this->menuBtn.setText("Main menu");
-    this->menuBtn.setPosition(70, 28);
-    this->menuBtn.setOnClick(onMenu);
+    // crea un pulsante per andare al menu principale
+    this->menuBtn = new Button();
+    this->menuBtn->setText("Main menu");
+    this->menuBtn->setPosition(70, 28);
+    this->menuBtn->setOnClick(onMenu);
 
-    this->scrollable.setPosition(1, 1);
+    this->scrollable->setPosition(1, 1);
 
-    this->add(&this->scrollable);
-    this->add(&this->menuBtn);
+    this->add(this->scrollable);
+    this->add(this->menuBtn);
 }
 
 void LeaderboardScene::addScore(Score score) {

@@ -9,6 +9,7 @@ int main() {
     // avvio del gioco
     engine->start(mainScene);
 
+    // assicuriamo che le risorse vengano liberate per pulire il terminale e uscire dalla modalita' curses
     delete mainScene;
     delete engine;
     return 0;
