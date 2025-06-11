@@ -19,7 +19,7 @@ mkdir build
 Dopodiché, si deve usare `cmake` per creare il `Makefile` per compilare il progetto:
 
 ```shell
-cmake -B build -S .
+cmake -DCMAKE_BUILD_TYPE=Release -B build -S .
 ```
 
 Infine, per compilare bisogna evocare il comando `make`:
@@ -51,7 +51,7 @@ mkdir build
 After that, you should use `cmake` to create the `Makefile` needed to compile the project:
 
 ```shell
-cmake -B build -S .
+cmake -DCMAKE_BUILD_TYPE=Release -B build -S .
 ```
 
 At last, to build it you should invoke the `make` command:
