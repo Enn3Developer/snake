@@ -53,7 +53,7 @@ LeaderboardScene::LeaderboardScene() {
     // creiamo la label legend da aggiungere all'inizio dello scrollable
     auto legendLabel = new Label();
     legendLabel->setColor(*new ColorPair(COLOR_GREEN));
-    legendLabel->setText("Score;Level");
+    legendLabel->setText("               Score\t\tLevel");
     this->scrollable->add(legendLabel);
 
     // per ogni punteggio nella lista
@@ -62,7 +62,7 @@ LeaderboardScene::LeaderboardScene() {
         // creiamo un buffer in memoria che lo conterra'
         char *score = new char[257]{};
         // convertiamo il punteggio in una stringa
-        l->score.toString(score);
+        l->score.toFormattedString(score);
 
         // creiamo la label
         auto label = new Label();
@@ -80,7 +80,7 @@ LeaderboardScene::LeaderboardScene() {
     this->menuBtn->setPosition(70, 28);
     this->menuBtn->setOnClick(onMenu);
 
-    this->scrollable->setPosition(1, 1);
+    this->scrollable->setPosition(11, 1);
 
     this->add(this->scrollable);
     this->add(this->menuBtn);

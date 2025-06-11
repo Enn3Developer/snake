@@ -12,6 +12,8 @@ public:
 
     void toString(char *str);
 
+    void toFormattedString(char *str);
+
     void fromString(const char *str);
 
     friend bool operator<(const Score &lhs, const Score &rhs) {

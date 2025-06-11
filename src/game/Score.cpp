@@ -65,6 +65,26 @@ void Score::toString(char *str) {
     strcat(str, level);
 }
 
+void Score::toFormattedString(char *str) {
+    const char *level;
+    switch (this->level) {
+        case 1:
+            level = "Easy";
+            break;
+        case 2:
+            level = "Normal";
+            break;
+        case 3:
+            level = "Hard";
+            break;
+        default:
+            level = "BUG";
+            break;
+    }
+
+    sprintf(str, "%20d\t\t%s", this->score, level);
+}
+
 void Score::fromString(const char *str) {
     char score[BUFFER_LEN] = {};
     char level[BUFFER_LEN] = {};
