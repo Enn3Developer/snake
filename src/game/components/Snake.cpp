@@ -140,8 +140,11 @@ int Snake::tick() {
         // generiamo una nuova mela
         this->generateApple();
         // calcoliamo il punteggio base (moltiplicato in caso dal bonus velocita')
+        // se il giocatore ci mette piu' di BONUS_TICKS tick per mangiare la mela, allora ritorna solo BASE_POINTS
+        // se il giocatore ci mette meno di BONUS_TICKS tick per mangiare la mela, allora ritorna BASE_POINTS * BONUS_POINTS
+        // se il giocatore ci mette meno della meta' di BONUS_TICKS tick per mangiare la mela, allora ritorna BASE_POINTS * BONUS_POINTS * BONUS_POINTS
         int points = BASE_POINTS * (this->bonusTicks > 0
-                                        ? this->bonusTicks > 25
+                                        ? this->bonusTicks > BONUS_TICKS / 2
                                               ? BONUS_POINTS * BONUS_POINTS
                                               : BONUS_POINTS
                                         : 1);
