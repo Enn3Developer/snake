@@ -7,6 +7,7 @@ MainScene *main_scene_from_level_selection;
 GameScene *game_scene_from_level_selection;
 
 void startGame(RunContext *ctx, int level) {
+    // calcoliamo i parametri della partita in base al livello selezionato
     int speed = 2;
     int length = 2;
     int bonus = 1;
@@ -30,8 +31,11 @@ void startGame(RunContext *ctx, int level) {
         default: break;
     }
 
+    // ora creiamo la partita assegnando i parametri calcolati
     game_scene_from_level_selection = new GameScene(length, speed, level);
     game_scene_from_level_selection->setBonusPoints(bonus);
+
+    // infine passiamo alla scena della partita
     ctx->queueScene(game_scene_from_level_selection);
 }
 
@@ -48,6 +52,7 @@ void onHard(RunContext *ctx) {
 }
 
 LevelSelectionScene::LevelSelectionScene() {
+    // inizializzazione dei pulsanti con annessi dati (testo, colore, posizione e azione al click)
     this->easy = new Button();
     this->normal = new Button();
     this->hard = new Button();
@@ -81,13 +86,19 @@ LevelSelectionScene::LevelSelectionScene() {
 void LevelSelectionScene::run(RunContext *ctx) {
     Scene::run(ctx);
 
+    // se il focus non esiste, non proseguiamo
     if (this->focus == nullptr) return;
 
+    // se il focus e' il pulsante easy allora coloriamo la box di verde
     if (this->focus->drawable == this->easy) {
         ctx->setBoxColor(ColorPair(COLOR_GREEN));
-    } else if (this->focus->drawable == this->normal) {
+    }
+    // se il focus e' il pulsante normal allora coloriamo la box di giallo
+    else if (this->focus->drawable == this->normal) {
         ctx->setBoxColor(ColorPair(COLOR_YELLOW));
-    } else if (this->focus->drawable == this->hard) {
+    }
+    // se il focus e' il pulsante hard allora coloriamo la box di rosso
+    else if (this->focus->drawable == this->hard) {
         ctx->setBoxColor(ColorPair(COLOR_RED));
     }
 }

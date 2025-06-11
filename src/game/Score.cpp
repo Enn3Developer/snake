@@ -66,6 +66,7 @@ void Score::toString(char *str) {
 }
 
 void Score::toFormattedString(char *str) {
+    // convertiamo il valore del punteggio ad una stringa
     const char *level;
     switch (this->level) {
         case 1:
@@ -82,6 +83,7 @@ void Score::toFormattedString(char *str) {
             break;
     }
 
+    // infine stampiamo il punteggio formattato sulla stringa
     sprintf(str, "%20d\t\t%s", this->score, level);
 }
 

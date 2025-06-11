@@ -53,6 +53,8 @@ LeaderboardScene::LeaderboardScene() {
     // creiamo la label legend da aggiungere all'inizio dello scrollable
     auto legendLabel = new Label();
     legendLabel->setColor(*new ColorPair(COLOR_GREEN));
+    // spazi + "score" == 20 caratteri
+    // sono i caratteri massimi del punteggio formattato
     legendLabel->setText("               Score\t\tLevel");
     this->scrollable->add(legendLabel);
 
