@@ -113,8 +113,9 @@ void Scrollable::draw(DrawContext *ctx) {
      *
      * post originale: https://forum.gamemaker.io/index.php?threads/scrollbar-code-how-do-i-calculate-y-and-height.57928/post-350442
      */
-    float y_1 = relerp(0.0f, (float) this->maxHeight, (float) this->scrollHeight, (float) this->y,
-                       (float) this->y + (float) this->viewportHeight);
+    float y_1 = relerp(0.0f, (float) this->maxHeight, (float) this->scrollHeight,
+                       (float) this->y, (float) this->y + (float) this->viewportHeight);
+
     float y_2 = relerp(0.0f, (float) this->maxHeight, (float) this->scrollHeight + (float) this->viewportHeight,
                        (float) this->y, (float) this->y + (float) this->viewportHeight);
 
