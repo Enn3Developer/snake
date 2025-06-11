@@ -13,6 +13,7 @@ typedef enum input_kind {
     CONFIRM,
     ESCAPE,
     CLICKED,
+    MOVEMENT,
 } InputKind;
 
 class RunContext {
@@ -42,6 +43,10 @@ public:
     void setMousePosition(int x, int y);
 
     [[nodiscard]] InputKind getInput() const;
+
+    int getMouseX();
+
+    int getMouseY();
 
     /// Ritorna x e y del mouse al momento del click
     [[nodiscard]] int *getMousePosition() const;

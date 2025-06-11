@@ -44,7 +44,7 @@ public:
     void focusDown();
 
     /// Usato quando si riceve un click del mouse
-    void click(RunContext *ctx, int x, int y);
+    void click(RunContext *ctx, int x, int y, bool click);
 
     /// Usato per centrare il testo
     static int getCenteredX(Drawable *drawable);

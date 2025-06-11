@@ -4,9 +4,9 @@
 
 ### Descrizione
 
-Questo è un progetto universitario con lo scopo di ricreare snake su terminale usando C++ e ncurses
+Questo è un progetto universitario con lo scopo di ricreare snake su terminale usando C++ e ncurses.
 
-Sviluppato e testato su Linux x86_64, dovrebbe funzionare anche su Linux aarch64 e Windows x86_64/aarch64
+Sviluppato e testato su Linux x86_64, dovrebbe funzionare anche su Linux aarch64 e Windows x86_64/aarch64.
 
 ### Compilazione
 
@@ -28,17 +28,18 @@ Infine, per compilare bisogna evocare il comando `make`:
 make snake
 ```
 
-L'eseguibile si chiamerà `snake`
+L'eseguibile si chiamerà `snake`.
 
-N.B.: È necessario aver installato la libreria `ncurses` per poter compilare il progetto
+N.B.: È necessario aver installato la libreria `ncurses` per poter compilare il progetto.
+Inoltre è consigliato avviare il programma impostando questa variabile d'ambiente: `TERM=xterm-1003`.
 
 ## 🇬🇧 English 🇬🇧
 
 ### Description
 
-This is a university project with the goal to recreate snake in the terminal using C++ and ncurses
+This is a university project with the goal to recreate snake in the terminal using C++ and ncurses.
 
-Developed and tested on Linux x86_64, it should work on Linux aarch64 and Windowx x86_64/aarch64, too
+Developed and tested on Linux x86_64, it should work on Linux aarch64 and Windowx x86_64/aarch64, too.
 
 ### Build
 
@@ -60,6 +61,7 @@ At last, to build it you should invoke the `make` command:
 make snake
 ```
 
-The binary executable will be `snake`
+The binary executable will be `snake`.
 
-N.B.: It is necessary installing `ncurses` to compile the project
+N.B.: It is necessary installing `ncurses` to compile the project.
+It is advised to set this environment variable before running the program: `TERM=xterm-1003`.

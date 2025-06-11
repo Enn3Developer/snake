@@ -12,10 +12,12 @@ Engine::Engine(const int height, const int width, const int startX, const int st
     initscr();
     noecho();
     nodelay(stdscr, true);
+    cbreak();
     set_escdelay(0);
+    mouseinterval(0);
     keypad(stdscr, true);
     curs_set(0);
-    mousemask(BUTTON1_CLICKED, nullptr);
+    mousemask(BUTTON1_CLICKED | REPORT_MOUSE_POSITION, nullptr);
     start_color();
     const auto win = newwin(height, width, startY, startX);
     refresh();
@@ -108,6 +110,13 @@ void Engine::input(RunContext *ctx) {
                 if (mouseEvent.bstate & BUTTON1_CLICKED) {
                     // impostiamo l'evento a CLICKED
                     input = CLICKED;
+                    // e impostiamo anche la posizione del mouse
+                    x = mouseEvent.x, y = mouseEvent.y;
+                }
+                // altrimenti non e' stato premuto nessun pulsante quindi e' stato solo mosso il mouse
+                else {
+                    // impostiamo l'evento a MOVEMENT
+                    input = MOVEMENT;
                     // e impostiamo anche la posizione del mouse
                     x = mouseEvent.x, y = mouseEvent.y;
                 }

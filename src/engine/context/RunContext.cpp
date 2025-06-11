@@ -22,15 +22,21 @@ void RunContext::setMousePosition(const int x, const int y) {
     this->x = x, this->y = y;
 }
 
-
 InputKind RunContext::getInput() const {
     return this->input;
+}
+
+int RunContext::getMouseX() {
+    return this->x;
+}
+
+int RunContext::getMouseY() {
+    return this->y;
 }
 
 int *RunContext::getMousePosition() const {
     return new int[]{this->x, this->y};
 }
-
 
 void RunContext::queueExit() {
     this->exit = true;
@@ -44,7 +50,6 @@ void RunContext::forceRedraw() {
     this->redraw = true;
 }
 
-
 bool RunContext::exitQueued() const {
     return this->exit;
 }
@@ -56,7 +61,6 @@ bool RunContext::sceneQueued() const {
 bool RunContext::redrawForced() const {
     return this->redraw;
 }
-
 
 Scene *RunContext::newScene() const {
     return this->switchScene;
