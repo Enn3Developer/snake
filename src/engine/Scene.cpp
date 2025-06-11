@@ -280,7 +280,8 @@ void Scene::click(RunContext *ctx, const int x, const int y) {
 
         // controlliamo se il click e' stato fatto all'interno di questo drawable
         if (x >= drawX && x < drawX + drawable->width()
-            && (y >= drawY && y < drawY + drawable->height())) {
+            && y >= drawY && y < drawY + drawable->height()
+            && drawable->isVisible()) {
             // controlliamo che il drawable sia anche un Actionable
             if (auto *actionable = dynamic_cast<Actionable *>(drawable);
                 actionable != nullptr) {
@@ -291,9 +292,9 @@ void Scene::click(RunContext *ctx, const int x, const int y) {
                 // impostiamo il focus a quell'elemento
                 this->focus = l;
                 // avvisiamo il drawable/actionable dell'azione dell'utente
-                actionable->action(ctx);
-                // e usciamo dalla funzione
-                return;
+                // e usciamo dalla funzione se l'action annulla l'azione di default
+                // (l'azione di default e' controllare anche tutti gli altri drawable)
+                if (actionable->action(ctx)) return;
             }
         }
 

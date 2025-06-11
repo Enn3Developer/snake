@@ -171,8 +171,8 @@ void GameScene::run(RunContext *ctx) {
 }
 
 bool GameScene::onEscape(RunContext *ctx) {
-    // se il modal non e' ancora stato aperto
-    if (!this->modal->isOpen()) {
+    // se il modal non e' ancora stato aperto e l'alert non e' aperto
+    if (!this->modal->isOpen() && !this->alert->isVisible()) {
         // allora rendilo visibile
         this->modal->setVisible(true);
         // avvisa il modal che e' stato aperto

@@ -93,7 +93,6 @@ bool Alert::action(RunContext *ctx) {
                 break;
             }
 
-
             break;
     }
 

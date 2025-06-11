@@ -182,28 +182,27 @@ bool Snake::action(RunContext *ctx) {
             // se la direzione attuale e' opposta, annulla questo input
             if (this->direction == D_DOWN) break;
             this->direction = D_UP;
-            break;
+            return true;
         // FRECCIA GIU'
         case DOWN:
             // se la direzione attuale e' opposta, annulla questo input
             if (this->direction == D_UP) break;
             this->direction = D_DOWN;
-            break;
+            return true;
         // FRECCIA SINISTRA
         case LEFT:
             // se la direzione attuale e' opposta, annulla questo input
             if (this->direction == D_RIGHT) break;
             this->direction = D_LEFT;
-            break;
+            return true;
         // FRECCIA DESTRA
         case RIGHT:
             // se la direzione attuale e' opposta, annulla questo input
             if (this->direction == D_LEFT) break;
             this->direction = D_RIGHT;
-            break;
-        default: break;
+            return true;
     }
 
-    return true;
+    return false;
 }
 
