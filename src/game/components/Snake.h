@@ -9,9 +9,10 @@
 #define BONUS_TICKS 50
 #define BASE_POINTS 7
 #define BONUS_POINTS 3
+#define MAX_INPUT 5
 
 typedef enum direction {
-    D_UP, D_DOWN, D_LEFT, D_RIGHT
+    D_UP, D_DOWN, D_LEFT, D_RIGHT, D_NONE
 } Direction;
 
 class Snake final : public Drawable, public Actionable {
@@ -31,6 +32,16 @@ private:
 
     p_list h_snake;
     p_list t_snake;
+
+    struct buffer_list {
+        Direction dir;
+        buffer_list *next;
+    };
+
+    typedef buffer_list *p_buffer_list;
+
+    p_buffer_list h_input;
+    int len_input;
 
     bool (*snakeGrid)[SNAKE_WIDTH];
     int length;
@@ -54,6 +65,10 @@ public:
     bool isInSnake(position pos);
 
     int tick();
+
+    void addInput(Direction dir);
+
+    Direction popInput();
 
     int width() override;
 

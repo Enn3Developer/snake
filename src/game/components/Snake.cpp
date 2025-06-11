@@ -5,6 +5,11 @@
 #include "../../engine/context/RunContext.h"
 #include "../scenes/GameScene.h"
 
+bool isOppositeDirection(Direction dirA, Direction dirB) {
+    return (dirA == D_UP && dirB == D_DOWN) || (dirA == D_DOWN && dirB == D_UP) || (dirA == D_LEFT && dirB == D_RIGHT)
+           || (dirA == D_RIGHT && dirB == D_LEFT);
+}
+
 Snake::Snake(int length, int speed) {
     // inizializza la griglia
     this->snakeGrid = new bool[SNAKE_HEIGHT][SNAKE_WIDTH]{false};
@@ -16,7 +21,9 @@ Snake::Snake(int length, int speed) {
     this->speed = speed;
     this->remaining_ticks = 0;
     this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
-    this->bonusTicks = BONUS_TICKS;
+    this->bonusTicks = BONUS_TICKS;\
+    this->h_input = nullptr;
+    this->len_input = 0;
 
     // inizializza il serpente nella grigla
     for (int x = 10; x < length + 10; x++) {
@@ -28,7 +35,7 @@ Snake::Snake(int length, int speed) {
     // genera la posizione iniziale della mela
     this->generateApple();
     // direzione iniziale del serpente
-    this->direction = D_UP;
+    this->direction = D_RIGHT;
 }
 
 void Snake::addSnakePosition(position pos) {
@@ -77,6 +84,14 @@ int Snake::tick() {
     // altrimenti impostiamo come tick rimanenti la velocita'
     this->remaining_ticks = speed;
 
+    // prendiamo l'ultimo input dal buffer solo se e' valido (ovvero non e' opposto alla direzione attuale del serpente)
+    do {
+        this->direction = this->popInput();
+    } while (this->direction != D_NONE && isOppositeDirection(this->direction, this->currentDirection));
+    // se l'ultimo input e' NONE, allora assegniamo come direzione la direzione attuale
+    if (this->direction == D_NONE) this->direction = this->currentDirection;
+
+
     // inizializziamo il vettore movimento del serpente
     int dir_x = 0;
     int dir_y = 0;
@@ -91,6 +106,15 @@ int Snake::tick() {
             break;
         case D_LEFT:
             dir_x -= 1;
+            /* fix per normalizzare la velocita' di movimento tra quello verticale e orizzontale
+             *
+             * il problema e' dovuto dal fatto che i caratteri sono piu' alti che larghi quindi sembra che in altezza ci
+             * siano piu' caratteri quando in realta' ce ne sono di meno quindi la velocita' in verticale sembra maggiore
+             *
+             * per risolverlo velocizziamo di HORIZONTAL_MOVEMENT_TICKS (3) la velocita' orizzontale
+             * il valore scelto per HORIZONTAL_MOVEMENT_TICKS e' il numero intero piu' vicino alla relazione reale tra
+             * velocita' orizzontale percepita e quella verticale percepita (~2.7)
+            */
             this->horizontalMovementTicks -= 1;
             if (this->horizontalMovementTicks == 0) {
                 this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
@@ -106,6 +130,8 @@ int Snake::tick() {
             } else {
                 this->remaining_ticks = 0;
             }
+            break;
+        case D_NONE:
             break;
     }
     this->currentDirection = this->direction;
@@ -158,6 +184,46 @@ int Snake::tick() {
     return 0;
 }
 
+void Snake::addInput(Direction dir) {
+    if (this->len_input >= MAX_INPUT) {
+        this->popInput();
+    }
+
+    auto new_input = new buffer_list{dir, nullptr};
+    if (this->len_input == 0) {
+        this->h_input = new_input;
+        this->len_input = 1;
+        return;
+    }
+
+    p_buffer_list input;
+    for (input = this->h_input; input->next != nullptr; input = input->next) {
+    }
+    input->next = new_input;
+    this->len_input += 1;
+}
+
+Direction Snake::popInput() {
+    if (this->len_input == 0) return D_NONE;
+
+    if (this->len_input == 1) {
+        auto dir = this->h_input->dir;
+        this->h_input = nullptr;
+        this->len_input = 0;
+
+        return dir;
+    }
+
+    p_buffer_list input;
+    for (input = this->h_input; input->next->next != nullptr; input = input->next) {
+    }
+    auto dir = input->next->dir;
+    input->next = nullptr;
+    this->len_input -= 1;
+
+    return dir;
+}
+
 int Snake::height() {
     return SNAKE_HEIGHT;
 }
@@ -195,28 +261,21 @@ bool Snake::action(RunContext *ctx) {
     switch (ctx->getInput()) {
         // FRECCIA SU
         case UP:
-            // se la direzione attuale e' opposta, annulla questo input
-            if (this->currentDirection == D_DOWN) break;
-            this->direction = D_UP;
+            this->addInput(D_UP);
             return true;
         // FRECCIA GIU'
         case DOWN:
-            // se la direzione attuale e' opposta, annulla questo input
-            if (this->currentDirection == D_UP) break;
-            this->direction = D_DOWN;
+            this->addInput(D_DOWN);
             return true;
         // FRECCIA SINISTRA
         case LEFT:
-            // se la direzione attuale e' opposta, annulla questo input
-            if (this->currentDirection == D_RIGHT) break;
-            this->direction = D_LEFT;
+            this->addInput(D_LEFT);
             return true;
         // FRECCIA DESTRA
         case RIGHT:
-            // se la direzione attuale e' opposta, annulla questo input
-            if (this->currentDirection == D_LEFT) break;
-            this->direction = D_RIGHT;
+            this->addInput(D_RIGHT);
             return true;
+        default: break;
     }
 
     return false;
