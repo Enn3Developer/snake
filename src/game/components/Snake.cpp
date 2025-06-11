@@ -16,6 +16,7 @@ Snake::Snake(int length, int speed) {
     this->speed = speed;
     this->remaining_ticks = 0;
     this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
+    this->bonusTicks = BONUS_TICKS;
 
     // inizializza il serpente nella grigla
     for (int x = 10; x < length + 10; x++) {
@@ -70,6 +71,8 @@ int Snake::tick() {
 
     // se mancano ancora dei tick, usciamo dalla funzione
     if (this->remaining_ticks > 0) return 0;
+
+    this->bonusTicks -= 1;
 
     // altrimenti impostiamo come tick rimanenti la velocita'
     this->remaining_ticks = speed;
@@ -135,8 +138,13 @@ int Snake::tick() {
     if (pos.x == apple.x && pos.y == apple.y) {
         // generiamo una nuova mela
         this->generateApple();
-        // e ritorniamo il punteggio base
-        return 5;
+        // calcoliamo il punteggio base (moltiplicato in caso dal bonus velocita')
+        int points = 1 * (this->bonusTicks > 0 ? 3 : 1);
+
+        // resettiamo i tick per il bonus
+        this->bonusTicks = BONUS_TICKS;
+
+        return points;
     }
 
     return 0;
