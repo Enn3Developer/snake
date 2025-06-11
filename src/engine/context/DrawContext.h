@@ -3,7 +3,7 @@
 #include <ncurses.h>
 #include "../ColorPair.h"
 
-constexpr int MAX_COLORS = 32;
+constexpr int MAX_COLORS = 64;
 const auto DEFAULT_COLOR_PAIR = ColorPair(COLOR_WHITE);
 
 class DrawContext {
