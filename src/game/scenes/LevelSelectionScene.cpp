@@ -21,13 +21,17 @@ void startGame(RunContext *ctx, int level) {
         case 2:
             speed = 15;
             length = 10;
-            bonus = 7;
+            bonus = 8;
             break;
         case 3:
             speed = 10;
             length = 15;
-            bonus = 13;
+            bonus = 19;
             break;
+        case 4:
+            speed = 7;
+            length = 23;
+            bonus = 37;
         default: break;
     }
 
@@ -51,15 +55,21 @@ void onHard(RunContext *ctx) {
     startGame(ctx, 3);
 }
 
+void onImpossible(RunContext *ctx) {
+    startGame(ctx, 4);
+}
+
 LevelSelectionScene::LevelSelectionScene() {
     // inizializzazione dei pulsanti con annessi dati (testo, colore, posizione e azione al click)
     this->easy = new Button();
     this->normal = new Button();
     this->hard = new Button();
+    this->impossible = new Button();
 
     this->easy->setText("Easy");
     this->normal->setText("Normal");
     this->hard->setText("Hard");
+    this->impossible->setText("Impossible");
 
     this->easy->setNormalColor(ColorPair(COLOR_GREEN, COLOR_BLACK));
     this->easy->setHoverColor(ColorPair(COLOR_GREEN, COLOR_WHITE));
@@ -70,17 +80,23 @@ LevelSelectionScene::LevelSelectionScene() {
     this->hard->setNormalColor(ColorPair(COLOR_RED, COLOR_BLACK));
     this->hard->setHoverColor(ColorPair(COLOR_RED, COLOR_WHITE));
 
+    this->impossible->setNormalColor(ColorPair(COLOR_MAGENTA, COLOR_BLACK));
+    this->impossible->setHoverColor(ColorPair(COLOR_MAGENTA, COLOR_WHITE));
+
     this->easy->setPosition(getCenteredX(this->easy), 8);
     this->normal->setPosition(getCenteredX(this->normal), 11);
     this->hard->setPosition(getCenteredX(this->hard), 14);
+    this->impossible->setPosition(getCenteredX(this->impossible), 17);
 
     this->easy->setOnClick(onEasy);
     this->normal->setOnClick(onNormal);
     this->hard->setOnClick(onHard);
+    this->impossible->setOnClick(onImpossible);
 
     this->add(this->easy);
     this->add(this->normal);
     this->add(this->hard);
+    this->add(this->impossible);
 }
 
 void LevelSelectionScene::run(RunContext *ctx) {
@@ -100,6 +116,10 @@ void LevelSelectionScene::run(RunContext *ctx) {
     // se il focus e' il pulsante hard allora coloriamo la box di rosso
     else if (this->focus->drawable == this->hard) {
         ctx->setBoxColor(ColorPair(COLOR_RED));
+    }
+    // se il focus e' il pulsante impossible allora coloriamo la box di magenta
+    else if (this->focus->drawable == this->impossible) {
+        ctx->setBoxColor(ColorPair(COLOR_MAGENTA));
     }
 }
 

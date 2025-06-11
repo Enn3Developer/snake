@@ -7,7 +7,7 @@
 #define SNAKE_HEIGHT 28
 #define HORIZONTAL_MOVEMENT_TICKS 3
 #define BONUS_TICKS 50
-#define BASE_POINTS 2
+#define BASE_POINTS 7
 #define BONUS_POINTS 3
 
 typedef enum direction {

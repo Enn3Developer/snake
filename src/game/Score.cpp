@@ -78,6 +78,9 @@ void Score::toFormattedString(char *str) {
         case 3:
             level = "Hard";
             break;
+        case 4:
+            level = "Impossible";
+            break;
         default:
             level = "BUG";
             break;
