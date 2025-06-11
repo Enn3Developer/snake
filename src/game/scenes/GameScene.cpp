@@ -19,7 +19,7 @@ GameScene::GameScene(int length, int speed, int level) {
     // lasciamo a false e se vince la impostiamo a true
     this->won = false;
 
-    // usato quando andiamo a salvere il punteggio nel file per la visualizzazione nella classifica
+    // usato quando andiamo a salvare il punteggio nel file per la visualizzazione nella classifica
     this->level = level;
 
     // inizializziamo le variabili del punteggio
@@ -132,6 +132,12 @@ void GameScene::run(RunContext *ctx) {
 
     // aggiorniamo il timer
     sprintf(this->timerStr, "Time: %d", this->timer / 1000);
+
+    // quando mancano 10 secondi al termine della partita (sono 11 nel check per via dell'arrotondamento)
+    // cambia colore ogni secondo tra rosso e bianco per segnalare al giocatore che la partita sta per terminare
+    if (this->timer / 1000 % 2 == 0 && this->timer <= 11000) {
+        ctx->setBoxColor(ColorPair(COLOR_RED));
+    }
 
     // se il tick del serpente e' risultato in un'evento di sconfitta
     if (points == -1) {
