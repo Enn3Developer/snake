@@ -108,6 +108,7 @@ int Snake::tick() {
             }
             break;
     }
+    this->currentDirection = this->direction;
 
     // ora creiamo la posizione partendo dalla testa del serpente
     auto pos = position{this->h_snake->pos.x + dir_x, this->h_snake->pos.y + dir_y};
@@ -139,7 +140,7 @@ int Snake::tick() {
         // generiamo una nuova mela
         this->generateApple();
         // calcoliamo il punteggio base (moltiplicato in caso dal bonus velocita')
-        int points = 1 * (this->bonusTicks > 0 ? 3 : 1);
+        int points = BASE_POINTS * (this->bonusTicks > 0 ? BONUS_POINTS : 1);
 
         // resettiamo i tick per il bonus
         this->bonusTicks = BONUS_TICKS;
@@ -188,25 +189,25 @@ bool Snake::action(RunContext *ctx) {
         // FRECCIA SU
         case UP:
             // se la direzione attuale e' opposta, annulla questo input
-            if (this->direction == D_DOWN) break;
+            if (this->currentDirection == D_DOWN) break;
             this->direction = D_UP;
             return true;
         // FRECCIA GIU'
         case DOWN:
             // se la direzione attuale e' opposta, annulla questo input
-            if (this->direction == D_UP) break;
+            if (this->currentDirection == D_UP) break;
             this->direction = D_DOWN;
             return true;
         // FRECCIA SINISTRA
         case LEFT:
             // se la direzione attuale e' opposta, annulla questo input
-            if (this->direction == D_RIGHT) break;
+            if (this->currentDirection == D_RIGHT) break;
             this->direction = D_LEFT;
             return true;
         // FRECCIA DESTRA
         case RIGHT:
             // se la direzione attuale e' opposta, annulla questo input
-            if (this->direction == D_LEFT) break;
+            if (this->currentDirection == D_LEFT) break;
             this->direction = D_RIGHT;
             return true;
     }
