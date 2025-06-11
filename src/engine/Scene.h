@@ -43,8 +43,8 @@ public:
     /// Sposta il focus verso la coda della lista
     void focusDown();
 
-    /// Usato quando si riceve un click del mouse
-    void click(RunContext *ctx, int x, int y, bool click);
+    /// Usato quando si riceve un click o un movimento del mouse
+    void click(RunContext *ctx, int x, int y);
 
     /// Usato per centrare il testo
     static int getCenteredX(Drawable *drawable);

@@ -34,7 +34,7 @@ int Alert::width() {
     // larghezza minima (lunghezza "ok")
     int min = 2;
     // larghezza del contenuto del messaggio
-    int message_len = strlen(this->msg);
+    int message_len = this->msg != nullptr ? strlen(this->msg) : 0;
 
     // ritorna il valore piu' grande tra i due + il padding ai lati
     return (min > message_len ? min : message_len) + 2;

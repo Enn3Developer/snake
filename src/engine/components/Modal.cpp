@@ -20,7 +20,7 @@ int Modal::width() {
     // larghezza minima (cancel + ok + spacing)
     int min = 6 + 2 + 1;
     // larghezza del contenuto del messaggio
-    int message_len = strlen(this->message);
+    int message_len = this->message != nullptr ? strlen(this->message) : 0;
 
     // ritorna il valore piu' grande tra i due + il padding ai lati
     return (min > message_len ? min : message_len) + 2;
@@ -45,6 +45,10 @@ bool Modal::isConfirmed() {
 }
 
 bool Modal::action(RunContext *ctx) {
+    // calcola la larghezza del modal
+    int width = this->width();
+    int x, y;
+
     switch (ctx->getInput()) {
         case ESCAPE:
         case NONE:
@@ -62,14 +66,33 @@ bool Modal::action(RunContext *ctx) {
             // e chiudi il modal
             this->closeModal();
             break;
+        case MOVEMENT:
+            // ottiene la posizione del mouse
+            x = ctx->getMouseX();
+            y = ctx->getMouseY();
+
+            // se il movimento e' avvenuto sulla riga dei pulsanti
+            if (y == this->y + 3) {
+                // se l'hover e' su cancel
+                if (x >= this->x + 1 && x < this->x + 1 + 6) {
+                    // allora impostiamo l'hover su cancel
+                    this->confirm_focused = false;
+                    break;
+                }
+
+                // altrimenti, controlliamo se l'hover sia su ok
+                if (x >= this->x + width - 3 && x < this->x + width - 1) {
+                    // in quel caso impostiamo l'hover su ok
+                    this->confirm_focused = true;
+                    break;
+                }
+            }
+
+            break;
         case CLICKED:
             // ottiene la posizione del mouse
-            int *position = ctx->getMousePosition();
-            int x = position[0];
-            int y = position[1];
-
-            // calcola la larghezza del modal
-            int width = this->width();
+            x = ctx->getMouseX();
+            y = ctx->getMouseY();
 
             // se il click e' avvenuto sulla riga dei pulsanti
             if (y == this->y + 3) {
@@ -92,6 +115,7 @@ bool Modal::action(RunContext *ctx) {
                 }
             }
             break;
+        default: break;
     }
     return true;
 }

@@ -248,19 +248,16 @@ void Scene::run(RunContext *ctx) {
         // NESSUN TASTO
         case NONE:
             break;
-        // MOVIMENTO DEL MOUSE
+        // CLICK SINISTRO DEL MOUSE | MOVIMENTO DEL MOUSE
         case MOVEMENT:
-            this->click(ctx, ctx->getMouseX() - this->startX, ctx->getMouseY() - this->startY, false);
-            break;
-        // CLICK SINISTRO DEL MOUSE
         case CLICKED:
             // chiamiamo la funzione che gestisce i click normalizzando la posizione
-            this->click(ctx, ctx->getMouseX() - this->startX, ctx->getMouseY() - this->startY, true);
+            this->click(ctx, ctx->getMouseX() - this->startX, ctx->getMouseY() - this->startY);
             break;
     }
 }
 
-void Scene::click(RunContext *ctx, const int x, const int y, bool click) {
+void Scene::click(RunContext *ctx, const int x, const int y) {
     // se ci sta gia' un elemento in focus
     if (this->focus != nullptr) {
         // avvisiamo l'elemento che non e' piu' in focus
@@ -295,11 +292,10 @@ void Scene::click(RunContext *ctx, const int x, const int y, bool click) {
                 drawable->setHover(true);
                 // impostiamo il focus a quell'elemento
                 this->focus = l;
-                // se l'actionable deve essere cliccato:
                 // avvisiamo il drawable/actionable dell'azione dell'utente
                 // e usciamo dalla funzione se l'action annulla l'azione di default
                 // (l'azione di default e' controllare anche tutti gli altri drawable)
-                if (click) if (actionable->action(ctx)) return;
+                if (actionable->action(ctx)) return;
             }
         }
 
