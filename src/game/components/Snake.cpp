@@ -22,8 +22,8 @@ Snake::Snake(int length, int speed) {
         this->addSnakePosition(pos);
     }
 
-    // posizione iniziale della mela
-    this->apple = position{50, 20};
+    // genera la posizione iniziale della mela
+    this->generateApple();
     // direzione iniziale del serpente
     this->direction = D_UP;
 }
