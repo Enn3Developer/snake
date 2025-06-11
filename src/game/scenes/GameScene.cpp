@@ -164,8 +164,8 @@ void GameScene::run(RunContext *ctx) {
     // e, se l'utente ha confermato l'azione
     if (this->modal->isConfirmed()) {
         // allora ritorna al menu principale
-        main_menu_scene = *new MainScene();
-        ctx->queueScene(&main_menu_scene);
+        main_menu_scene = new MainScene();
+        ctx->queueScene(main_menu_scene);
     }
     this->moveFocus(0);
 }
