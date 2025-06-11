@@ -14,6 +14,8 @@ typedef enum input_kind {
     ESCAPE,
     CLICKED,
     MOVEMENT,
+    SCROLL_UP,
+    SCROLL_DOWN,
 } InputKind;
 
 class RunContext {

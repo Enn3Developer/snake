@@ -223,7 +223,9 @@ void Scene::run(RunContext *ctx) {
             // di default mandiamo il focus verso il basso
             this->focusDown();
             break;
-        // TASTO INVIO
+        // TASTO INVIO | SCROLL UP | SCROLL DOWN
+        case SCROLL_UP:
+        case SCROLL_DOWN:
         case CONFIRM:
             // di default controlliamo se ci sta un elemento in focus
             if (this->focus != nullptr) {

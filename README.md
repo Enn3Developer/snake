@@ -31,7 +31,6 @@ make snake
 L'eseguibile si chiamerà `snake`.
 
 N.B.: È necessario aver installato la libreria `ncurses` per poter compilare il progetto.
-Inoltre è consigliato avviare il programma impostando questa variabile d'ambiente: `TERM=xterm-1003`.
 
 ## 🇬🇧 English 🇬🇧
 
@@ -64,4 +63,3 @@ make snake
 The binary executable will be `snake`.
 
 N.B.: It is necessary installing `ncurses` to compile the project.
-It is advised to set this environment variable before running the program: `TERM=xterm-1003`.

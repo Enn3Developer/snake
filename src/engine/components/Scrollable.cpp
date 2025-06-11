@@ -98,9 +98,11 @@ void Scrollable::draw(DrawContext *ctx) {
 
 bool Scrollable::action(RunContext *ctx) {
     switch (ctx->getInput()) {
+        case SCROLL_UP:
         case UP:
             this->scrollBy(-1);
             return true;
+        case SCROLL_DOWN:
         case DOWN:
             this->scrollBy(1);
             return true;
