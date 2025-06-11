@@ -128,10 +128,10 @@ void DrawContext::drawBox(int color, int x, int y, int width, int height) {
     mvwvline(this->win, y, x+width - 1, 0, height);
 
     // infine, i quattro angoli (U = sopra, L = sotto; L = sinistra, R = destra)
-    mvwadd_wch(this->win, y, x, WACS_ULCORNER);
-    mvwadd_wch(this->win, y, x+width-1, WACS_URCORNER);
-    mvwadd_wch(this->win, y+height-1, x, WACS_LLCORNER);
-    mvwadd_wch(this->win, y+height-1, x+width-1, WACS_LRCORNER);
+    mvwaddch(this->win, y, x, ACS_ULCORNER);
+    mvwaddch(this->win, y, x+width-1, ACS_URCORNER);
+    mvwaddch(this->win, y+height-1, x, ACS_LLCORNER);
+    mvwaddch(this->win, y+height-1, x+width-1, ACS_LRCORNER);
 
     this->disableColor(color);
 }
