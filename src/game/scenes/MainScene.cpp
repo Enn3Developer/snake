@@ -55,5 +55,5 @@ MainScene::MainScene() {
 
 const char *MainScene::getTitle() {
     // titolo della scena
-    return "Snake";
+    return "Snake v0.3.0";
 }

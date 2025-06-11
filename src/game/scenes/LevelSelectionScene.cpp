@@ -26,7 +26,7 @@ void startGame(RunContext *ctx, int level) {
         case 3:
             speed = 10;
             length = 15;
-            bonus = 11;
+            bonus = 13;
             break;
         default: break;
     }
