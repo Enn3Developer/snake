@@ -18,7 +18,7 @@ LeaderboardScene::LeaderboardScene() {
     // inizializziamo la lista dei punteggi
     this->list_size = 0;
     this->head = nullptr;
-    this->scrollable = new Scrollable(1, 27, 79);
+    this->scrollable = new Scrollable(1, 27, 69);
 
     // apriamo l'handle per il file
     auto file = new File("leaderboard.txt");

@@ -3,6 +3,8 @@
 #include "../Actionable.h"
 #include "../Drawable.h"
 
+#define MIN_SCROLLBAR_HEIGHT 5
+
 class Scrollable final : public Drawable, public Actionable {
 private:
     /// Lista per gestire tutti gli oggetti `Drawable`, non è circolare
@@ -34,6 +36,8 @@ private:
 
     /// Larghezza massima renderizzabile
     int viewportWidth;
+
+    int scrollColorId;
 
 public:
     Scrollable(int spacing, int viewportHeight, int viewportWidth);

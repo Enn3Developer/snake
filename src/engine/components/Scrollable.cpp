@@ -2,6 +2,11 @@
 
 #include "../context/RunContext.h"
 
+// post originale: https://forum.gamemaker.io/index.php?threads/variable-jump-animation-speed-based-on-running-speed-with-lerp.12633/post-83164
+float relerp(float oldmin, float oldmax, float value, float newmin, float newmax) {
+    return (value - oldmin) / (oldmax - oldmin) * (newmax - newmin) + newmin;
+}
+
 Scrollable::Scrollable(int spacing, int viewportHeight, int viewportWidth) {
     this->spacing = spacing;
     this->viewportHeight = viewportHeight;
@@ -9,8 +14,8 @@ Scrollable::Scrollable(int spacing, int viewportHeight, int viewportWidth) {
     this->size = 0;
     this->scrollHeight = 0;
     this->maxHeight = 0;
+    this->scrollColorId = -1;
 }
-
 
 void Scrollable::add(Drawable *drawable) {
     // inizializza un elemento della lista
@@ -47,11 +52,12 @@ void Scrollable::add(Drawable *drawable) {
 void Scrollable::scrollBy(int rows) {
     this->scrollHeight += rows;
 
+    // scrollHeight massimo
+    if (this->scrollHeight + this->viewportHeight - 1 >= this->maxHeight)
+        this->scrollHeight = this->maxHeight - this->viewportHeight + 1;
+
     // scrollHeight minimo
     if (this->scrollHeight < 0) this->scrollHeight = 0;
-
-    // scrollHeight massimo
-    if (this->scrollHeight >= this->maxHeight) this->scrollHeight = this->maxHeight;
 }
 
 int Scrollable::height() {
@@ -63,6 +69,10 @@ int Scrollable::width() {
 }
 
 void Scrollable::draw(DrawContext *ctx) {
+    if (this->scrollColorId == -1) {
+        this->scrollColorId = ctx->registerColorPair(ColorPair(COLOR_BLACK, COLOR_WHITE));
+    }
+
     // partendo dalla testa
     auto l = this->h_drawables;
     // impostiamo l'altezza attuale a 0
@@ -94,6 +104,23 @@ void Scrollable::draw(DrawContext *ctx) {
         // finalmente, possiamo passare al nuovo elemento
         l = l->next;
     }
+
+    float viewport_proportions = static_cast<float>(this->viewportHeight) / static_cast<float>(this->maxHeight);
+
+    if (viewport_proportions >= 1.0) return;
+
+    /* calcola l'altezza della scrollbar e il suo inizio
+     *
+     * post originale: https://forum.gamemaker.io/index.php?threads/scrollbar-code-how-do-i-calculate-y-and-height.57928/post-350442
+     */
+    float y_1 = relerp(0.0f, (float) this->maxHeight, (float) this->scrollHeight, (float) this->y,
+                       (float) this->y + (float) this->viewportHeight);
+    float y_2 = relerp(0.0f, (float) this->maxHeight, (float) this->scrollHeight + (float) this->viewportHeight,
+                       (float) this->y, (float) this->y + (float) this->viewportHeight);
+
+    int height = (int) (y_2 - y_1);
+
+    ctx->drawBackground(this->scrollColorId, this->x + this->viewportWidth - 2, (int) y_1, 1, height);
 }
 
 bool Scrollable::action(RunContext *ctx) {
