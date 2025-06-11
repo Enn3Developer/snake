@@ -3,8 +3,8 @@
 #include "../context/RunContext.h"
 
 // post originale: https://forum.gamemaker.io/index.php?threads/variable-jump-animation-speed-based-on-running-speed-with-lerp.12633/post-83164
-float relerp(float oldmin, float oldmax, float value, float newmin, float newmax) {
-    return (value - oldmin) / (oldmax - oldmin) * (newmax - newmin) + newmin;
+float relerp(float old_min, float old_max, float value, float new_min, float new_max) {
+    return (value - old_min) / (old_max - old_min) * (new_max - new_min) + new_min;
 }
 
 Scrollable::Scrollable(int spacing, int viewportHeight, int viewportWidth) {
