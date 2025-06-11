@@ -9,7 +9,7 @@
 #include "../../engine/File.h"
 #include "../../engine/components/Label.h"
 
-MainScene main_menu_scene;
+MainScene *main_menu_scene;
 
 GameScene::GameScene(int length, int speed, int level) {
     // assicuriamoci che venga assegnato un seed iniziale ad ogni nuova partita basandoci sull'epoch attuale
@@ -89,27 +89,30 @@ void GameScene::run(RunContext *ctx) {
     if (this->alert->isOpen()) return;
     // altrimenti, se e' stato chiuso ma e' ancora visibile
     if (this->alert->isVisible()) {
-        // apre l'handle del file
-        auto file = new File("leaderboard.txt");
+        // salva il punteggio solo in caso di vittoria
+        if (this->won) {
+            // apre l'handle del file
+            auto file = new File("leaderboard.txt");
 
-        // crea il punteggio e assegna i valori giusti
-        auto score = new Score();
-        score->score = this->points;
-        score->level = level;
+            // crea il punteggio e assegna i valori giusti
+            auto score = new Score();
+            score->score = this->points;
+            score->level = level;
 
-        // crea il buffer
-        char *line = new char[257]{};
-        // scrive il punteggio sul buffer
-        score->toString(line);
+            // crea il buffer
+            char *line = new char[257]{};
+            // scrive il punteggio sul buffer
+            score->toString(line);
 
-        // aggiunge alla fine del file il punteggio in stringa
-        file->writeLine(line);
-        // chiude l'handle del file
-        delete file;
+            // aggiunge alla fine del file il punteggio in stringa
+            file->writeLine(line);
+            // chiude l'handle del file
+            delete file;
+        }
 
         // allora ritorna al menu principale
-        main_menu_scene = *new MainScene();
-        ctx->queueScene(&main_menu_scene);
+        main_menu_scene = new MainScene();
+        ctx->queueScene(main_menu_scene);
     }
 
     // muove il serpente e calcola i punti per questo tick

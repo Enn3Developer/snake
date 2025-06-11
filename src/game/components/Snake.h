@@ -5,6 +5,7 @@
 
 #define SNAKE_WIDTH 78
 #define SNAKE_HEIGHT 28
+#define HORIZONTAL_MOVEMENT_TICKS 3
 
 typedef enum direction {
     D_UP, D_DOWN, D_LEFT, D_RIGHT
@@ -36,6 +37,7 @@ private:
     int apple_color_id;
     position apple;
     Direction direction;
+    int horizontalMovementTicks;
 
 public:
     Snake(int length, int speed);

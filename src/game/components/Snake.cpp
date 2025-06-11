@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 #include "../../engine/context/RunContext.h"
+#include "../scenes/GameScene.h"
 
 Snake::Snake(int length, int speed) {
     // inizializza la griglia
@@ -14,6 +15,7 @@ Snake::Snake(int length, int speed) {
     this->length = length;
     this->speed = speed;
     this->remaining_ticks = 0;
+    this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
 
     // inizializza il serpente nella grigla
     for (int x = 10; x < length + 10; x++) {
@@ -59,11 +61,7 @@ void Snake::generateApple() {
 
 bool Snake::isInSnake(position pos) {
     // controlla che la posizione sia interna al serpente o meno
-    for (p_list l = this->h_snake; l != nullptr; l = l->next) {
-        if (pos.x == l->pos.x && pos.y == l->pos.y) return true;
-    }
-
-    return false;
+    return this->snakeGrid[pos.y][pos.x];
 }
 
 int Snake::tick() {
@@ -90,9 +88,21 @@ int Snake::tick() {
             break;
         case D_LEFT:
             dir_x -= 1;
+            this->horizontalMovementTicks -= 1;
+            if (this->horizontalMovementTicks == 0) {
+                this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
+            } else {
+                this->remaining_ticks = 0;
+            }
             break;
         case D_RIGHT:
             dir_x += 1;
+            this->horizontalMovementTicks -= 1;
+            if (this->horizontalMovementTicks == 0) {
+                this->horizontalMovementTicks = HORIZONTAL_MOVEMENT_TICKS;
+            } else {
+                this->remaining_ticks = 0;
+            }
             break;
     }
 
@@ -107,7 +117,7 @@ int Snake::tick() {
     if (pos.y >= this->height()) pos.y = 0;
 
     // controlliamo che il serpente non si sia toccato,
-    if (this->snakeGrid[pos.y][pos.x]) {
+    if (this->isInSnake(pos)) {
         // se si e' toccato, allora e' persa la partita
         return -1;
     }
