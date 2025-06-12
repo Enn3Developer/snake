@@ -5,8 +5,8 @@
 #include "../../engine/components/Modal.h"
 #include "../components/Snake.h"
 
-#define ONE_MINUTE 60000
-#define FIVE_MINUTES 300000
+#define ONE_MINUTE 60000000
+#define FIVE_MINUTES 300000000
 #define ON_FIRE_COMBO 7
 #define GOD_COMBO 28
 

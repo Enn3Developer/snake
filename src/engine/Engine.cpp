@@ -155,7 +155,7 @@ void Engine::run() {
     // main loop del gioco
     while (true) {
         // otteniamo l'epoch attuale
-        const int64_t start = millis();
+        const int64_t start = micros();
 
         // inizializziamo il RunContext
         auto ctx = RunContext();
@@ -182,7 +182,7 @@ void Engine::run() {
             break;
         }
 
-        if (this->runTicks == MILLIS_PER_FRAME) {
+        if (this->runTicks >= MILLIS_PER_FRAME) {
             // disegniamo la nuova scena
             this->draw(&ctx);
             this->runTicks = 0;
@@ -190,11 +190,10 @@ void Engine::run() {
 
         // e, se ci avanza tempo, fermiamo l'esecuzione in modo da ottenere un framerate fisso
         // per aumentare la fluidita' del gioco
-        if (const int64_t end = millis();
-            end - start <= RUN_MILLIS_PER_FRAME) {
-            int64_t sleep_time = RUN_MILLIS_PER_FRAME - (end - start);
-            if (sleep_time < 1 || sleep_time > RUN_MILLIS_PER_FRAME) continue;
-            sleep(RUN_MILLIS_PER_FRAME - (end - start));
+        if (const int64_t end = micros();
+            end - start <= RUN_MICROS_PER_FRAME) {
+            int64_t sleep_time = RUN_MICROS_PER_FRAME - (end - start);
+            sleepMicros(sleep_time);
         }
     }
 }
@@ -234,6 +233,15 @@ void Engine::sleep(unsigned int millis) {
 #endif
 }
 
+void Engine::sleepMicros(unsigned int micros) {
+    int64_t start = Engine::micros();
+    int64_t now = Engine::micros();
+
+    while (now - start < micros) {
+        now = Engine::micros();
+    }
+}
+
 int64_t Engine::millis() {
     // otteniamo l'epoch attuale
     timespec now{};
@@ -241,4 +249,13 @@ int64_t Engine::millis() {
 
     // e lo convertiamo in millisecondi
     return now.tv_sec * 1000 + now.tv_nsec / 1000000;
+}
+
+int64_t Engine::micros() {
+    // otteniamo l'epoch attuale
+    timespec now{};
+    timespec_get(&now, TIME_UTC);
+
+    // e lo convertiamo in millisecondi
+    return now.tv_sec * 1000000 + now.tv_nsec / 1000;
 }

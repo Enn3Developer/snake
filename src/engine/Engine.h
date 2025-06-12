@@ -5,6 +5,9 @@
 #define MILLIS_PER_FRAME 5
 #define RUN_MILLIS_PER_FRAME 1
 
+#define MICROS_PER_FRAME 5000
+#define RUN_MICROS_PER_FRAME 1000
+
 class Engine {
 private:
     /// Contesto grafico
@@ -39,8 +42,14 @@ public:
     /// Ferma il processo attuale per il numero di millisecondi specificati
     static void sleep(unsigned int millis);
 
+    /// Ferma il processo attuale per il numero di microsecondi specificati
+    static void sleepMicros(unsigned int micros);
+
     /// Ritorna il tempo attuale in millisecondi
     static int64_t millis();
+
+    /// Ritorna il tempo attuale in microsecondi
+    static int64_t micros();
 
     ~Engine();
 };
