@@ -39,9 +39,6 @@ public:
     /// Cambia il titolo della finestra
     void setTitle(const char *title);
 
-    /// Ferma il processo attuale per il numero di millisecondi specificati
-    static void sleep(unsigned int millis);
-
     /// Ferma il processo attuale per il numero di microsecondi specificati
     static void sleepMicros(unsigned int micros);
 

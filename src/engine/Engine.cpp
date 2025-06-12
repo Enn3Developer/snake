@@ -1,11 +1,6 @@
 #include "Engine.h"
 #include "Scene.h"
 #include <ctime>
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
 
 Engine::Engine(const int height, const int width, const int startX, const int startY) {
     // inizializzazione di ncurses
@@ -221,16 +216,6 @@ void Engine::draw(RunContext *ctx) {
 
     // e aggiorniamo la finestra
     this->drawContext.refresh();
-}
-
-void Engine::sleep(unsigned int millis) {
-    // in base al sistema (Windows o Linux/Mac/BSD)
-    // fermiamo il thread attuale per il numero di millisecondi richiesti
-#ifdef _WIN32
-    Sleep(millis);
-#else
-    usleep(millis * 1000);
-#endif
 }
 
 void Engine::sleepMicros(unsigned int micros) {
