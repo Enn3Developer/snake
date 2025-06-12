@@ -39,6 +39,8 @@ Engine::Engine(const int height, const int width, const int startX, const int st
 
     // imposta le coordinate iniziali della finestra
     this->startX = startX, this->startY = startY;
+
+    this->runTicks = 0;
 }
 
 Engine::~Engine() {
@@ -164,6 +166,8 @@ void Engine::run() {
         // eseguiamo il codice della scena
         this->scene->run(&ctx);
 
+        this->runTicks += 1;
+
         // se e' arrivata una richiesta di cambio scena
         if (ctx.sceneQueued()) {
             // inizializziamo la nuova scena
@@ -178,14 +182,19 @@ void Engine::run() {
             break;
         }
 
-        // disegniamo la nuova scena
-        this->draw(&ctx);
+        if (this->runTicks == MILLIS_PER_FRAME) {
+            // disegniamo la nuova scena
+            this->draw(&ctx);
+            this->runTicks = 0;
+        }
 
         // e, se ci avanza tempo, fermiamo l'esecuzione in modo da ottenere un framerate fisso
         // per aumentare la fluidita' del gioco
         if (const int64_t end = millis();
-            end - start <= MILLIS_PER_FRAME) {
-            sleep(MILLIS_PER_FRAME - (end - start));
+            end - start <= RUN_MILLIS_PER_FRAME) {
+            int64_t sleep_time = RUN_MILLIS_PER_FRAME - (end - start);
+            if (sleep_time < 1 || sleep_time > RUN_MILLIS_PER_FRAME) continue;
+            sleep(RUN_MILLIS_PER_FRAME - (end - start));
         }
     }
 }

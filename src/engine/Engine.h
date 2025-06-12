@@ -3,6 +3,7 @@
 #include "Scene.h"
 
 #define MILLIS_PER_FRAME 5
+#define RUN_MILLIS_PER_FRAME 1
 
 class Engine {
 private:
@@ -11,6 +12,7 @@ private:
     /// Scena attuale
     Scene *scene;
     int startX, startY;
+    int runTicks;
 
 public:
     /// Prepara ncurses e crea la finestra principale

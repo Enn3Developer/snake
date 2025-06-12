@@ -2,6 +2,7 @@
 
 #include "GameScene.h"
 #include "MainScene.h"
+#include "../../engine/Engine.h"
 
 MainScene *main_scene_from_level_selection;
 GameScene *game_scene_from_level_selection;
@@ -14,27 +15,27 @@ void startGame(RunContext *ctx, int level) {
 
     switch (level) {
         case 1:
-            speed = 24;
+            speed = 24 * MILLIS_PER_FRAME;
             length = 7;
             bonus = 3;
             break;
         case 2:
-            speed = 15;
+            speed = 15 * MILLIS_PER_FRAME;
             length = 12;
             bonus = 11;
             break;
         case 3:
-            speed = 10;
+            speed = 10 * MILLIS_PER_FRAME;
             length = 21;
             bonus = 31;
             break;
         case 4:
-            speed = 7;
+            speed = 7 * MILLIS_PER_FRAME;
             length = 33;
             bonus = 97;
             break;
         case 5:
-            speed = 4;
+            speed = 4 * MILLIS_PER_FRAME;
             length = 57;
             bonus = 253;
             break;

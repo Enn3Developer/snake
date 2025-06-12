@@ -134,7 +134,7 @@ void GameScene::run(RunContext *ctx) {
     }
 
     // rimuove dal timer il tempo passato dall'ultimo frame (delta)
-    this->timer -= MILLIS_PER_FRAME;
+    this->timer -= RUN_MILLIS_PER_FRAME;
 
     // se il timer termina
     if (this->timer <= 0) {
