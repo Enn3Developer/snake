@@ -8,7 +8,7 @@
 #define ONE_MINUTE 60000
 #define FIVE_MINUTES 300000
 #define ON_FIRE_COMBO 7
-#define GOD_COMBO 25
+#define GOD_COMBO 28
 
 class Label;
 

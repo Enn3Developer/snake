@@ -9,6 +9,7 @@ private:
     Button *normal;
     Button *hard;
     Button *impossible;
+    Button *god;
 
 public:
     LevelSelectionScene();

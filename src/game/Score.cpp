@@ -102,6 +102,9 @@ void Score::toFormattedString(char *str) {
         case 4:
             level = "Impossible";
             break;
+        case 5:
+            level = "God";
+            break;
         default:
             level = "BUG";
             break;

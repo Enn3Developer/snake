@@ -128,6 +128,11 @@ void GameScene::run(RunContext *ctx) {
 
     // muove il serpente e calcola i punti per questo tick
     ScoreType score_type = this->snake->tick(&combo);
+
+    if (combo == 0) {
+        sprintf(this->rateStr, "");
+    }
+
     // rimuove dal timer il tempo passato dall'ultimo frame (delta)
     this->timer -= MILLIS_PER_FRAME;
 
@@ -137,7 +142,7 @@ void GameScene::run(RunContext *ctx) {
         this->won = true;
 
         // mostriamo l'alert per segnalare la vittoria
-        this->alert->setMsg("You won");
+        this->alert->setMsg("Game over!");
         this->alert->setVisible(true);
         this->alert->openAlert();
         this->alert->setPosition(getCenteredX(this->alert), 12);
@@ -155,9 +160,12 @@ void GameScene::run(RunContext *ctx) {
 
     // se la combo e' abbastanza alta, cambia il colore del box ogni secondo per avvisare il giocatore che sta giocando bene
     if (combo >= ON_FIRE_COMBO && this->timer / 1000 % 2 == 1) {
-        // inoltre se sta facendo una combo "godlike" anziche' del giallo usa il magenta
-        if (combo >= GOD_COMBO) ctx->setBoxColor(ColorPair(COLOR_MAGENTA));
-        else ctx->setBoxColor(ColorPair(COLOR_YELLOW));
+        // inoltre se sta facendo una combo "godlike" anziche' del giallo usa il magenta (caso speciale se la difficolta' e' "god")
+        if (combo >= GOD_COMBO) {
+            // difficolta' == "god"
+            if (this->level == 5) ctx->setBoxColor(ColorPair(COLOR_BLACK, COLOR_RED));
+            else ctx->setBoxColor(ColorPair(COLOR_MAGENTA));
+        } else ctx->setBoxColor(ColorPair(COLOR_YELLOW));
     }
 
     // se il tick del serpente e' risultato in un'evento di sconfitta
@@ -196,7 +204,8 @@ void GameScene::run(RunContext *ctx) {
 
         // altrimenti aggiungiamo i punti al punteggio moltiplicati per il punteggio bonus del livello moltiplicati ancora per la combo
         // se la combo e' a 0 allora usiamo 1 come combo
-        this->points += points * (long) (this->bonusPoints * (combo > 0 ? combo : 1));
+        // aggiunto il case speciale della god combo
+        this->points += points * (long) (this->bonusPoints * (combo > 0 ? combo : 1)) * (combo >= GOD_COMBO ? 10 : 1);
         sprintf(this->pointsStr, "Points: %ld", this->points);
     }
 
