@@ -6,7 +6,7 @@
 #define SNAKE_WIDTH 78
 #define SNAKE_HEIGHT 28
 #define HORIZONTAL_MOVEMENT_TICKS 3
-#define BONUS_TICKS 60
+#define BONUS_TICKS 80
 #define BASE_POINTS 7
 #define BONUS_POINTS 3
 #define MAX_INPUT 5

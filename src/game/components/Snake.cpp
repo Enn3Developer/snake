@@ -74,6 +74,9 @@ bool Snake::isInSnake(position pos) {
 }
 
 ScoreType Snake::tick(int *combo) {
+    // ritorna la combo alla scena che gestisce il gioco
+    *combo = this->combo;
+
     // decrementiamo i tick rimanenti alla prossima azione
     this->remaining_ticks -= 1;
 
@@ -170,9 +173,9 @@ ScoreType Snake::tick(int *combo) {
         // aumentiamo la combo se il giocatore fa ottime azioni (ovvero riesce a mangiare le mele molto velocemente)
         if (this->bonusTicks > 0) this->combo += 1;
             // altrimenti la resettiamo
-        else this->combo = 0;
+        else this->combo = 1;
 
-        // ritorna la combo alla scena che gestisce il gioco
+        // aggiorna la combo che viene ritornata
         *combo = this->combo;
 
         auto score_type = S_NONE;

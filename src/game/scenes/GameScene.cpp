@@ -65,7 +65,7 @@ GameScene::GameScene(int length, int speed, int level) {
     // inizializziamo le stringhe delle label
     sprintf(this->pointsStr, "Points: 0");
     sprintf(this->timerStr, "Time: %d", this->timer / 1000);
-    sprintf(this->rateStr, "NONE: x0");
+    sprintf(this->rateStr, "");
 
     this->add(this->snake);
     this->add(this->modal);
@@ -151,6 +151,13 @@ void GameScene::run(RunContext *ctx) {
     // cambia colore ogni secondo tra rosso e bianco per segnalare al giocatore che la partita sta per terminare
     if (this->timer / 1000 % 2 == 0 && this->timer <= 11000) {
         ctx->setBoxColor(ColorPair(COLOR_RED));
+    }
+
+    // se la combo e' abbastanza alta, cambia il colore del box ogni secondo per avvisare il giocatore che sta giocando bene
+    if (combo >= ON_FIRE_COMBO && this->timer / 1000 % 2 == 1) {
+        // inoltre se sta facendo una combo "godlike" anziche' del giallo usa il magenta
+        if (combo >= GOD_COMBO) ctx->setBoxColor(ColorPair(COLOR_MAGENTA));
+        else ctx->setBoxColor(ColorPair(COLOR_YELLOW));
     }
 
     // se il tick del serpente e' risultato in un'evento di sconfitta
