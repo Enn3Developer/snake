@@ -223,20 +223,6 @@ void Scene::run(RunContext *ctx) {
             // di default mandiamo il focus verso il basso
             this->focusDown();
             break;
-        // TASTO INVIO | SCROLL UP | SCROLL DOWN
-        case SCROLL_UP:
-        case SCROLL_DOWN:
-        case CONFIRM:
-            // di default controlliamo se ci sta un elemento in focus
-            if (this->focus != nullptr) {
-                // facciamo il cast a un Actionable e controlliamo se sia valido
-                if (const auto actionable = dynamic_cast<Actionable *>(this->focus->drawable);
-                    actionable != nullptr) {
-                    // se lo e', avvisiamo l'elemento che l'utente l'ha attivato
-                    actionable->action(ctx);
-                }
-            }
-            break;
         // TASTO ESCAPE
         case ESCAPE:
             // se la scena non annulla l'azione
@@ -253,6 +239,18 @@ void Scene::run(RunContext *ctx) {
         case CLICKED:
             // chiamiamo la funzione che gestisce i click normalizzando la posizione
             this->click(ctx, ctx->getMouseX() - this->startX, ctx->getMouseY() - this->startY);
+            break;
+        // TASTO INVIO | SCROLL UP | SCROLL DOWN | RELEASED | default
+        default:
+            // di default controlliamo se ci sta un elemento in focus
+            if (this->focus != nullptr) {
+                // facciamo il cast a un Actionable e controlliamo se sia valido
+                if (const auto actionable = dynamic_cast<Actionable *>(this->focus->drawable);
+                    actionable != nullptr) {
+                    // se lo e', avvisiamo l'elemento che l'utente l'ha attivato
+                    actionable->action(ctx);
+                }
+            }
             break;
     }
 }

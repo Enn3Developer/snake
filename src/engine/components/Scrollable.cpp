@@ -15,6 +15,7 @@ Scrollable::Scrollable(int spacing, int viewportHeight, int viewportWidth) {
     this->scrollHeight = 0;
     this->maxHeight = 0;
     this->scrollColorId = -1;
+    this->scrolling = false;
 }
 
 void Scrollable::add(Drawable *drawable) {
@@ -133,6 +134,21 @@ bool Scrollable::action(RunContext *ctx) {
         case SCROLL_DOWN:
         case DOWN:
             this->scrollBy(1);
+            return true;
+        case CLICKED:
+            if (ctx->getMouseX() != this->x + this->viewportWidth - 2) return false;
+            this->scrolling = true;
+            this->scrollStart = ctx->getMouseY();
+            return true;
+        case MOVEMENT:
+            if (!this->scrolling) return false;
+            this->scrollHeight = relerp(0.0f, (float) this->maxHeight, (float) (ctx->getMouseY() - this->y),
+                                        (float) this->y, (float) this->y + (float) this->viewportHeight) - 1;
+            if (this->scrollHeight + this->viewportHeight - 1 >= this->maxHeight)
+                this->scrollHeight = this->maxHeight - this->viewportHeight + 1;
+            return true;
+        case RELEASED:
+            this->scrolling = false;
             return true;
         default: return false;
     }

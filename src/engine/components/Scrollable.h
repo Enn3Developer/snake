@@ -39,6 +39,10 @@ private:
 
     int scrollColorId;
 
+    bool scrolling;
+
+    int scrollStart;
+
 public:
     Scrollable(int spacing, int viewportHeight, int viewportWidth);
 

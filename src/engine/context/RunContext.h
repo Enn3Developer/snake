@@ -13,6 +13,7 @@ typedef enum input_kind {
     CONFIRM,
     ESCAPE,
     CLICKED,
+    RELEASED,
     MOVEMENT,
     SCROLL_UP,
     SCROLL_DOWN,

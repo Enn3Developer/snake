@@ -17,7 +17,9 @@ Engine::Engine(const int height, const int width, const int startX, const int st
     mouseinterval(0);
     keypad(stdscr, true);
     curs_set(0);
-    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | BUTTON4_PRESSED | BUTTON5_PRESSED | REPORT_MOUSE_POSITION, nullptr);
+    mousemask(
+        BUTTON1_CLICKED | BUTTON1_PRESSED | BUTTON1_RELEASED | BUTTON3_CLICKED | BUTTON4_PRESSED | BUTTON5_PRESSED |
+        REPORT_MOUSE_POSITION, nullptr);
     printf("\033[?1003h");
     fflush(stdout);
     start_color();
@@ -114,12 +116,17 @@ void Engine::input(RunContext *ctx) {
                     input = CLICKED;
                     // e impostiamo anche la posizione del mouse
                     x = mouseEvent.x, y = mouseEvent.y;
+                } else if (mouseEvent.bstate & BUTTON1_PRESSED) {
+                    input = CLICKED;
+                    x = mouseEvent.x, y = mouseEvent.y;
                 } else if (mouseEvent.bstate & BUTTON4_PRESSED) {
                     input = SCROLL_UP;
                 } else if (mouseEvent.bstate & BUTTON5_PRESSED) {
                     input = SCROLL_DOWN;
                 } else if (mouseEvent.bstate & BUTTON3_CLICKED) {
                     input = ESCAPE;
+                } else if (mouseEvent.bstate & BUTTON1_RELEASED) {
+                    input = RELEASED;
                 }
                 // altrimenti non e' stato premuto nessun pulsante quindi e' stato solo mosso il mouse
                 else {
