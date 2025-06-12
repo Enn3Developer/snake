@@ -57,7 +57,7 @@ void intToFormattedString(long number, char *str) {
     char *tmp = new char[255];
 
     if (number < 1000) {
-        sprintf(tmp, "%03ld", number);
+        sprintf(tmp, "%ld", number);
         strcat(str, tmp);
         delete tmp;
         return;
