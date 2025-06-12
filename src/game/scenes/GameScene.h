@@ -17,6 +17,7 @@ private:
     Label *pointsLabel;
     Alert *alert;
     Label *timerLabel;
+    Label *rateLabel;
     int points;
     char *pointsStr;
     char *timerStr;
@@ -24,6 +25,7 @@ private:
     int bonusPoints;
     bool won;
     int level;
+    char *rateStr;
 
 public:
     GameScene(int length, int speed, int level);

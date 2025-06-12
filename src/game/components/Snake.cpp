@@ -14,7 +14,7 @@ Snake::Snake(int length, int speed) {
     // inizializza la griglia
     this->snakeGrid = new bool[SNAKE_HEIGHT][SNAKE_WIDTH]{false};
 
-    // inizializza i valori di default per i colori, la lunghezza e la velocita' espressa in frame/tick
+    // inizializza i valori di default per i colori, la lunghezza, la velocita' espressa in frame/tick, etc...
     this->snake_color_id = -1;
     this->apple_color_id = -1;
     this->length = length;
@@ -24,6 +24,7 @@ Snake::Snake(int length, int speed) {
     this->bonusTicks = BONUS_TICKS;\
     this->h_input = nullptr;
     this->len_input = 0;
+    this->combo = 0;
 
     // inizializza il serpente nella grigla
     for (int x = 10; x < length + 10; x++) {
@@ -72,12 +73,12 @@ bool Snake::isInSnake(position pos) {
     return this->snakeGrid[pos.y][pos.x];
 }
 
-int Snake::tick() {
+ScoreType Snake::tick(int *combo) {
     // decrementiamo i tick rimanenti alla prossima azione
     this->remaining_ticks -= 1;
 
     // se mancano ancora dei tick, usciamo dalla funzione
-    if (this->remaining_ticks > 0) return 0;
+    if (this->remaining_ticks > 0) return S_NONE;
 
     this->bonusTicks -= 1;
 
@@ -149,7 +150,7 @@ int Snake::tick() {
     // controlliamo che il serpente non si sia toccato,
     if (this->isInSnake(pos)) {
         // se si e' toccato, allora e' persa la partita
-        return -1;
+        return S_LOSE;
     }
 
     // rimuoviamo l'elemento alla coda del serpente
@@ -165,23 +166,28 @@ int Snake::tick() {
     if (pos.x == apple.x && pos.y == apple.y) {
         // generiamo una nuova mela
         this->generateApple();
-        // calcoliamo il punteggio base (moltiplicato in caso dal bonus velocita')
-        // se il giocatore ci mette piu' di BONUS_TICKS tick per mangiare la mela, allora ritorna solo BASE_POINTS
-        // se il giocatore ci mette meno di BONUS_TICKS tick per mangiare la mela, allora ritorna BASE_POINTS * BONUS_POINTS
-        // se il giocatore ci mette meno della meta' di BONUS_TICKS tick per mangiare la mela, allora ritorna BASE_POINTS * BONUS_POINTS * BONUS_POINTS
-        int points = BASE_POINTS * (this->bonusTicks > 0
-                                        ? this->bonusTicks > BONUS_TICKS / 2
-                                              ? BONUS_POINTS * BONUS_POINTS
-                                              : BONUS_POINTS
-                                        : 1);
+
+        // aumentiamo la combo se il giocatore fa ottime azioni (ovvero riesce a mangiare le mele molto velocemente)
+        if (this->bonusTicks > 0) this->combo += 1;
+            // altrimenti la resettiamo
+        else this->combo = 0;
+
+        // ritorna la combo alla scena che gestisce il gioco
+        *combo = this->combo;
+
+        auto score_type = S_NONE;
+
+        if (this->bonusTicks > BONUS_TICKS / 2) score_type = S_GREAT;
+        else if (this->bonusTicks > 0) score_type = S_GOOD;
+        else score_type = S_OK;
 
         // resettiamo i tick per il bonus
         this->bonusTicks = BONUS_TICKS;
 
-        return points;
+        return score_type;
     }
 
-    return 0;
+    return S_NONE;
 }
 
 void Snake::addInput(Direction dir) {

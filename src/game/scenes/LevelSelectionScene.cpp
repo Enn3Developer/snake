@@ -14,7 +14,7 @@ void startGame(RunContext *ctx, int level) {
 
     switch (level) {
         case 1:
-            speed = 20;
+            speed = 25;
             length = 6;
             bonus = 3;
             break;

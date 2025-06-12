@@ -31,6 +31,8 @@ GameScene::GameScene(int length, int speed, int level) {
     this->timerStr = new char[50];
     this->timer = ONE_MINUTE;
 
+    this->rateStr = new char[50];
+
     // inizializziamo il serpente che gestira' anche il campo di gioco
     this->snake = new Snake(length, speed);
     this->snake->setPosition(1, 1);
@@ -44,26 +46,33 @@ GameScene::GameScene(int length, int speed, int level) {
     this->alert = new Alert();
     this->alert->setVisible(false);
 
-    // inizializziamo le label del punteggio e del tempo
+    // inizializziamo le label del punteggio, del tempo e del rate
     this->pointsLabel = new Label;
     this->pointsLabel->setText(this->pointsStr);
-    this->pointsLabel->setColor(*new ColorPair(COLOR_CYAN, COLOR_BLACK));
+    this->pointsLabel->setColor(ColorPair(COLOR_CYAN));
     this->pointsLabel->setPosition(60, 0);
 
     this->timerLabel = new Label;
     this->timerLabel->setText(this->timerStr);
-    this->timerLabel->setColor(*new ColorPair(COLOR_YELLOW, COLOR_BLACK));
+    this->timerLabel->setColor(ColorPair(COLOR_YELLOW));
     this->timerLabel->setPosition(48, 0);
+
+    this->rateLabel = new Label;
+    this->rateLabel->setText(this->rateStr);
+    this->rateLabel->setColor(ColorPair(COLOR_BLUE));
+    this->rateLabel->setPosition(35, 0);
 
     // inizializziamo le stringhe delle label
     sprintf(this->pointsStr, "Points: 0");
     sprintf(this->timerStr, "Time: %d", this->timer / 1000);
+    sprintf(this->rateStr, "NONE: x0");
 
     this->add(this->snake);
     this->add(this->modal);
     this->add(this->alert);
     this->add(this->pointsLabel);
     this->add(this->timerLabel);
+    this->add(this->rateLabel);
 
     // spostiamo immediatamente il focus al drawable corrispondente al campo di gioco
     // 0 perche' this->snake e' il primo elemento
@@ -115,8 +124,10 @@ void GameScene::run(RunContext *ctx) {
         ctx->queueScene(main_menu_scene);
     }
 
+    int combo = 0;
+
     // muove il serpente e calcola i punti per questo tick
-    int points = this->snake->tick();
+    int score_type = this->snake->tick(&combo);
     // rimuove dal timer il tempo passato dall'ultimo frame (delta)
     this->timer -= MILLIS_PER_FRAME;
 
@@ -143,7 +154,7 @@ void GameScene::run(RunContext *ctx) {
     }
 
     // se il tick del serpente e' risultato in un'evento di sconfitta
-    if (points == -1) {
+    if (score_type == S_LOSE) {
         // mostriamo l'alert per segnalare la sconfitta
         this->alert->setMsg("You lost");
         this->alert->setVisible(true);
@@ -151,8 +162,34 @@ void GameScene::run(RunContext *ctx) {
         this->alert->setPosition(getCenteredX(this->alert), 12);
         this->moveFocus(2);
     } else {
-        // altrimenti aggiungiamo i punti al punteggio moltiplicati per il punteggio bonus del livello
-        this->points += points * this->bonusPoints;
+        int points;
+
+        // calcola il punteggio in base alla valutazione dell'azione
+        switch (score_type) {
+            // ha mangiato la mela ma ci ha messo tanto tempo, quindi punti base (e non viene calcolata la combo che rimane fissa a 1)
+            case S_OK:
+                points = BASE_POINTS;
+                sprintf(this->rateStr, "%s: x%d", "OK", 1);
+                break;
+            // ha mangiato la mela nel tempo prestabilito, quindi punti base * punti bonus (combo calcolata)
+            case S_GOOD:
+                points = BASE_POINTS * BONUS_POINTS;
+                sprintf(this->rateStr, "%s: x%d", "GOOD", combo);
+                break;
+            // ha mangiato la mela in un lasso di tempo molto basso, quindi punti base * punti bonus ^ 2 (combo calcolata)
+            case S_GREAT:
+                points = BASE_POINTS * BONUS_POINTS * BONUS_POINTS;
+                sprintf(this->rateStr, "%s: x%d", "GREAT", combo);
+                break;
+            // il resto delle azioni non sono utili per calcolare il punteggio
+            default:
+                points = 0;
+                break;
+        }
+
+        // altrimenti aggiungiamo i punti al punteggio moltiplicati per il punteggio bonus del livello moltiplicati ancora per la combo
+        // se la combo e' a 0 allora usiamo 1 come combo
+        this->points += points * this->bonusPoints * (combo > 0 ? combo : 1);
         sprintf(this->pointsStr, "Points: %d", this->points);
     }
 
