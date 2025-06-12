@@ -50,17 +50,17 @@ GameScene::GameScene(int length, int speed, int level) {
     this->pointsLabel = new Label;
     this->pointsLabel->setText(this->pointsStr);
     this->pointsLabel->setColor(ColorPair(COLOR_CYAN));
-    this->pointsLabel->setPosition(60, 0);
+    this->pointsLabel->setPosition(55, 0);
 
     this->timerLabel = new Label;
     this->timerLabel->setText(this->timerStr);
     this->timerLabel->setColor(ColorPair(COLOR_YELLOW));
-    this->timerLabel->setPosition(48, 0);
+    this->timerLabel->setPosition(43, 0);
 
     this->rateLabel = new Label;
     this->rateLabel->setText(this->rateStr);
     this->rateLabel->setColor(ColorPair(COLOR_BLUE));
-    this->rateLabel->setPosition(35, 0);
+    this->rateLabel->setPosition(30, 0);
 
     // inizializziamo le stringhe delle label
     sprintf(this->pointsStr, "Points: 0");
@@ -106,7 +106,7 @@ void GameScene::run(RunContext *ctx) {
             // crea il punteggio e assegna i valori giusti
             auto score = new Score();
             score->score = this->points;
-            score->level = level;
+            score->level = (long) level;
 
             // crea il buffer
             char *line = new char[257]{};
@@ -127,7 +127,7 @@ void GameScene::run(RunContext *ctx) {
     int combo = 0;
 
     // muove il serpente e calcola i punti per questo tick
-    int score_type = this->snake->tick(&combo);
+    ScoreType score_type = this->snake->tick(&combo);
     // rimuove dal timer il tempo passato dall'ultimo frame (delta)
     this->timer -= MILLIS_PER_FRAME;
 
@@ -176,7 +176,7 @@ void GameScene::run(RunContext *ctx) {
             // ha mangiato la mela ma ci ha messo tanto tempo, quindi punti base (e non viene calcolata la combo che rimane fissa a 1)
             case S_OK:
                 points = BASE_POINTS;
-                sprintf(this->rateStr, "%s: x%d", "OK", 1);
+                sprintf(this->rateStr, "%s: x%d", "OK", combo);
                 break;
             // ha mangiato la mela nel tempo prestabilito, quindi punti base * punti bonus (combo calcolata)
             case S_GOOD:
@@ -196,8 +196,8 @@ void GameScene::run(RunContext *ctx) {
 
         // altrimenti aggiungiamo i punti al punteggio moltiplicati per il punteggio bonus del livello moltiplicati ancora per la combo
         // se la combo e' a 0 allora usiamo 1 come combo
-        this->points += points * this->bonusPoints * (combo > 0 ? combo : 1);
-        sprintf(this->pointsStr, "Points: %d", this->points);
+        this->points += points * (long) (this->bonusPoints * (combo > 0 ? combo : 1));
+        sprintf(this->pointsStr, "Points: %ld", this->points);
     }
 
     // se il modal non e' visibile, non fare nulla

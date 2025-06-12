@@ -4,8 +4,8 @@
 #include <cstring>
 #include <curses.h>
 
-int power(int base, int exponent) {
-    int result = 1;
+long power(long base, long exponent) {
+    long result = 1;
 
     for (int i = 0; i < exponent; i++) {
         result = result * base;
@@ -14,7 +14,7 @@ int power(int base, int exponent) {
     return result;
 }
 
-int charToInt(char c) {
+long charToInt(char c) {
     switch (c) {
         case '0': return 0;
         case '1': return 1;
@@ -30,13 +30,13 @@ int charToInt(char c) {
     }
 }
 
-int stringToInt(const char *str) {
+long stringToInt(const char *str) {
     int len = strlen(str);
-    int number = 0;
+    long number = 0;
 
     for (int i = 0; i < len; i++) {
         char c = str[i];
-        int digit = charToInt(c);
+        long digit = charToInt(c);
         if (digit == -1) continue;
         number += digit * power(10, len - i - 1);
     }
@@ -44,8 +44,29 @@ int stringToInt(const char *str) {
     return number;
 }
 
-void intToString(int number, char *str) {
-    sprintf(str, "%d", number);
+void intToString(long number, char *str) {
+    sprintf(str, "%ld", number);
+}
+
+void intToFormattedString(long number, char *str) {
+    if (number < 0) {
+        sprintf(str, "-");
+        number = -number;
+    }
+
+    char *tmp = new char[255];
+
+    if (number < 1000) {
+        sprintf(tmp, "%03ld", number);
+        strcat(str, tmp);
+        delete tmp;
+        return;
+    }
+
+    intToFormattedString(number / 1000, str);
+    sprintf(tmp, ",%03ld", number % 1000);
+    strcat(str, tmp);
+    delete tmp;
 }
 
 Score::Score() {
@@ -86,8 +107,11 @@ void Score::toFormattedString(char *str) {
             break;
     }
 
+    char *formattedScore = new char[BUFFER_LEN * 2]{};
+    intToFormattedString(this->score, formattedScore);
+
     // infine stampiamo il punteggio formattato sulla stringa
-    sprintf(str, "%20d\t\t%s", this->score, level);
+    sprintf(str, "%34s\t%s", formattedScore, level);
 }
 
 void Score::fromString(const char *str) {

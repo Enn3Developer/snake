@@ -18,7 +18,7 @@ LeaderboardScene::LeaderboardScene() {
     // inizializziamo la lista dei punteggi
     this->list_size = 0;
     this->head = nullptr;
-    this->scrollable = new Scrollable(1, 27, 69);
+    this->scrollable = new Scrollable(1, 27, 78);
 
     // apriamo l'handle per il file
     auto file = new File("leaderboard.txt");
@@ -53,9 +53,9 @@ LeaderboardScene::LeaderboardScene() {
     // creiamo la label legend da aggiungere all'inizio dello scrollable
     auto legendLabel = new Label();
     legendLabel->setColor(*new ColorPair(COLOR_GREEN));
-    // spazi + "score" == 20 caratteri
+    // spazi + "score" == 34 caratteri
     // sono i caratteri massimi del punteggio formattato
-    legendLabel->setText("               Score\t\tLevel");
+    legendLabel->setText("                             Score\tLevel");
     this->scrollable->add(legendLabel);
 
     // per ogni punteggio nella lista
@@ -82,7 +82,7 @@ LeaderboardScene::LeaderboardScene() {
     this->menuBtn->setPosition(70, 28);
     this->menuBtn->setOnClick(onMenu);
 
-    this->scrollable->setPosition(11, 1);
+    this->scrollable->setPosition(1, 1);
 
     this->add(this->scrollable);
     this->add(this->menuBtn);

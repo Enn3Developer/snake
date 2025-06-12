@@ -20,7 +20,7 @@ private:
     Alert *alert;
     Label *timerLabel;
     Label *rateLabel;
-    int points;
+    long points;
     char *pointsStr;
     char *timerStr;
     int timer;

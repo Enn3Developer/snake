@@ -1,12 +1,12 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#define BUFFER_LEN 128
+#define BUFFER_LEN 512
 
 class Score {
 public:
-    int score;
-    int level;
+    long score;
+    long level;
 
     Score();
 

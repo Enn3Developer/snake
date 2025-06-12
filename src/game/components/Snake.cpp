@@ -85,6 +85,9 @@ ScoreType Snake::tick(int *combo) {
 
     this->bonusTicks -= 1;
 
+    // resetta la combo se sono finiti i bonus ticks
+    if (this->bonusTicks == 0) this->combo = 0;
+
     // altrimenti impostiamo come tick rimanenti la velocita'
     this->remaining_ticks = speed;
 
